@@ -38,7 +38,7 @@
 
 * Stateless 실무한계
   * 무상태로 설계가 불가능한 것도 존재 (예: 로그인 상태 유지)
-    * 일반적으로 브라우저 쿠기와 서버 세션등을 사용해서 상태 유지
+    * 일반적으로 브라우저 쿠키와 서버 세션등을 사용해서 상태 유지
   * 서버는 가능한한 무상태로 설계함
 ---
 
@@ -52,19 +52,19 @@
   * 현재 HTTP 지속 연결(Persistent Connections)로 문제 해결
 ---
 
-## HTTP 메시지
+## HTTP 메시지 (*중요)
 * HTTP 요청 메시지 / HTTP 응답 메시지
 * HTTP 메시지 구조
   * 시작 라인(start-line) - 헤더(header) - 공백 라인(CRLF) - message body
   * 시작 라인
-    * request-line / status-line
+    * request-line (요청 시작 라인) / status-line (응답 시작 라인)
     * request-line : method SP(공백) request-target SP HTTP_version CRLF(엔터)
       * method : get, post 등
     * status-line : HTTP-version SP status-code SP reason-pharse CRLF
-    > * HTTP 상태 코드
-    >   * 200 : 성공
-    >   * 400 : 클라이언트 요청 오류
-    >   * 500 : 서버 내부 오류
+      > * HTTP status-code(상태 코드)
+      >   * 200 : 성공
+      >   * 400 : 클라이언트 요청 오류
+      >   * 500 : 서버 내부 오류
   * 헤더
     * field-name":" OWS field-value OWS (OWS : 띄어쓰기 허용)
     * field-name은 대소문자 구분 X
