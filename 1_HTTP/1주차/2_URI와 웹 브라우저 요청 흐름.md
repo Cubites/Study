@@ -1,5 +1,4 @@
 # 2. URI와 웹 브라우저 요청 흐름
----
 
 ## URI
 * Uniform Resource Identifier
@@ -14,7 +13,7 @@
   > * [/path] : 리소스 경로, 계층적 구조에 사용
   > * [?query] : key=value 형태, query parameter(or string)으로 불림
   > * [#fragment] : 같은 페이지 내에서의 이동에 사용
----
+
 
 ## 웹브라우저 요청 흐름 (**중요)
 1. URL 주소 입력
