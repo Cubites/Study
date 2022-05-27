@@ -43,7 +43,7 @@
 * 예 : ko, en, en-US
 ### Content-Length
 * 바이트 단위
-* Transfer-Encoding(분할 전송)을 사용하면 Content-Length를 사용하면 안됨
+* Transfer-Encoding을 사용하면(분할 전송 시) Content-Length를 사용하면 안됨
 
 ## 콘텐츠 협상
 * 클라이언트가 선호하는 표현의 요청
@@ -94,7 +94,9 @@
   > <br><code>text/html;level=1</code>
   > <br><code>text/html;level=2;q=0.4</code>
   > <br><code>\*/\*;q=0.5</code><br>
-  > * text/plain >> text/*;q=0.3
+  > * 경로가 text/plain 일 때
+  > <br>> text/*;q=0.3 와 가장 유사 
+  > <br>> text/plain의 가중치 = 0.3
 
 ## 전송 방식
 * 종류 : 단순 전송, 압축 전송, 분할 전송, 범위 전송
