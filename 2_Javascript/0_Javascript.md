@@ -11,4 +11,3 @@
 ### BOM(Browser Object Model)
 * Javascript가 브라우저 요소에 접근할 수 있게 해줌
 * 종류 : window, location, navigator, history, screen, document
-
