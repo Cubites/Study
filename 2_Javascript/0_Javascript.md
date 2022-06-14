@@ -11,3 +11,8 @@
 ### BOM(Browser Object Model)
 * Javascript가 브라우저 요소에 접근할 수 있게 해줌
 * 종류 : window, location, navigator, history, screen, document
+
+### 원시 타입(Primitive)
+* Javascript에서의 원시 타입은 다음과 같음
+  * String, Number, Boolean, Null, Undefined, Symbol, BigInt
+<=> 객체 타입 : Object, Array
