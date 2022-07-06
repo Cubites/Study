@@ -1,0 +1,30 @@
+{
+  "name": "7_nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon test",
+    "node1": "nodemon node1_express",
+    "node2": "nodemon node2_mongodb",
+    "node3": "nodemon node3_register",
+    "node4": "nodemon node4_bcrypt",
+    "node5": "nodemon node5_login",
+    "node6": "nodemon node6_auth",
+    "node7": "nodemon node7_logout"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}

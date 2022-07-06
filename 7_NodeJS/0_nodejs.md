@@ -28,3 +28,10 @@
   | once(event, listner) | 지정한 이벤트의 리스너를 추가하지만 한 번 실행한 후에는 자동으로 리스너가 제거 됨 |
   | removeListner(event, listner) | 지정한 이벤트에 대한 리스너를 제거 |
   | emit(event, param) | 이벤트를 전송 |
+
+## package.json
+### dependencies 와 devDependencies 의 차이
+* dependencies는 실행에 필요한 모듈들 표시
+* devDependencies도 실행에 필요한 모듈이지만 개발 단계에서 필요한 모듈(배포 시, 필요 X)
+* 배포할 시 빌드 작업을 간소화 하기 위해, 개발 단계에만 필요하고 배포 시에는 필요없는 모듈들을 devDependencies에 적음
+* <code>npm install 모듈 -D</code>로 적으면 devDependencies에 기록됨
