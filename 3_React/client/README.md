@@ -83,8 +83,9 @@
 * src > components > views > LoginPage > LoginPage.jsx 에서 문제
   <br>> 31번째 줄 <code>props.history.push('/')</code> 가 동작하지 않음
 ### 강사의 답변
-  * LoginPage.jsx 상단에 <code>import { withRouter } from 'react-router-dom';</code> 추가
-  * 하단에 export 부분을 <code>export default withRouter(LoginPage)</code>로 수정
+* https://www.inflearn.com/questions/52278
+* LoginPage.jsx 상단에 <code>import { withRouter } from 'react-router-dom';</code> 추가
+* 하단에 export 부분을 <code>export default withRouter(LoginPage)</code>로 수정
 
 ### 답변의 문제
 * react-router-dom에서 withRouter가 없어짐!!!
