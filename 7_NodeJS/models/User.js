@@ -39,7 +39,7 @@ userSchema.pre('save', function(next){ // .pre('save') : 'save' 하기 전에 �
 
     if(user.isModified('password')){ // 'password'가 수정될 때만 실행
         // 비밀번호 암호화
-        bcrypt.genSalt(saltRounds, function(err, salt){
+        bcrypt.genSalt(saltRounds, function(err, salt){ // salt : 암호화할 때 섞는 임의의 텍스트
             if(err) return next(err);
             bcrypt.hash(user.password, salt, function (err, hash){ // hash : 암호화된 비밀번호
                 if(err) return next(err);
