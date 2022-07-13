@@ -91,3 +91,5 @@
 
 ### Functional Component
 * react hook이 생기면서 Class Component에서만 하던 것을 할 수 있게 됨
+
+## HOC(Higher Order Component)

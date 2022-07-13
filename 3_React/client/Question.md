@@ -32,3 +32,8 @@
 
 ## Failed to parse source map: 'webpack://antd/./components/locale-provider/style/index.less' URL is not supported 에러
 * 해결 : index.js에서 antd import 부분의 <code>antd.css</code>를 <code>antd.min.css</code>로 수정
+
+## Functions are not valid as a React child. This may happen if you return a Component instead of <Component /> from render. Or maybe you meant to call this function rather than return it.
+* 문제: App.js에 있는 route의 element에 Auth를 적용해서 생긴 문제
+* 해결: Auth를 element가 아닌, 각 component 안에 export(내보내는) 부분의 component에 적용하면 해결됨
+  <br>> component > views 안에 있는 component들 참고
