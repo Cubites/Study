@@ -22,6 +22,19 @@
 * 설치 목록에 해당 패키지가 없으면 웹상의 npm에서 최신버전을 사용함
 <br>> 자주 사용하지 않거나, 최신 버전을 사용해야하는 패키지에 유용(예: create-react-app)
 
+## CORS 이슈, Proxy 설정
+### Cross Origin Resource Sharing
+* 출처(origin)가 다른 경우에 다른 출처에 있는 자원을 선택할 수 있게 권한을 부여하도록 알려주는 체제
+  * 출처 : scheme(protocol;http, https), hostname(domain), port로 정의됨
+
+### Proxy
+* http-proxy-middleware 사용(<code>npm install http-proxy-middleware</code>)
+* 자세한 코드는 src/setupProxy.js 참고
+* proxy server
+  * 보내는 데이터 변경 가능
+  * IP를 바꿔 접속자의 IP를 모르게 할 수도 있음
+  * 기능 : 방화벽 기능, 웹 필터 기능, 캐쉬 데이터, 공유 데이터 제공 기능
+
 ## Concurrently
 * clint와 server를 동시에 실행할 수 있게 해주는 패키지
 * 설치 : <code>npm install concurrently -D</code>
@@ -78,16 +91,3 @@
 
 ### Functional Component
 * react hook이 생기면서 Class Component에서만 하던 것을 할 수 있게 됨
-
-# 문제 발생
-* src > components > views > LoginPage > LoginPage.jsx 에서 문제
-  <br>> 31번째 줄 <code>props.history.push('/')</code> 가 동작하지 않음
-### 강사의 답변
-* https://www.inflearn.com/questions/52278
-* LoginPage.jsx 상단에 <code>import { withRouter } from 'react-router-dom';</code> 추가
-* 하단에 export 부분을 <code>export default withRouter(LoginPage)</code>로 수정
-
-### 답변의 문제
-* react-router-dom에서 withRouter가 없어짐!!!
-
-### 대체제가 필요함

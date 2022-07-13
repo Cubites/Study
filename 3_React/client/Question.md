@@ -7,3 +7,28 @@
 * Package : 특정 기능과 관련된 여러 모듈을 한 폴더 안에 넣어 관리하는 것
 * Module : 함수, 변수, 클래스를 모아놓은 것
 * 관계 : Library >= Package >= Moduel
+
+# 3주차 문제
+## <code>props.history.push('/')</code> 가 동작하지 않음
+* src > components > views > LoginPage > LoginPage.jsx 31번째 줄
+### 강사의 답변
+* https://www.inflearn.com/questions/52278
+* LoginPage.jsx 상단에 <code>import { withRouter } from 'react-router-dom';</code> 추가
+* 하단에 export 부분을 <code>export default withRouter(LoginPage)</code>로 수정
+
+### 답변의 문제
+* react-router-dom에서 withRouter가 없어짐!!!
+
+### 해결
+* withRouter > useHistory > useNavigate(v6)로 변경됨
+* 해결법
+  * 다음 코드 추가
+    > <pre>
+    > import { useNavigate } from 'react-router-dom';
+    > const navigate = useNavigate();
+    > <pre>
+  * <code>props.history.push('/')</code>를 다음 코드로 대체
+  <br>> <code>navigate('/');</code>
+
+## Failed to parse source map: 'webpack://antd/./components/locale-provider/style/index.less' URL is not supported 에러
+* 해결 : index.js에서 antd import 부분의 <code>antd.css</code>를 <code>antd.min.css</code>로 수정

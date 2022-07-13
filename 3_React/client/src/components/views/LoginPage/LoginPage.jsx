@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { HistoryRouterProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 
 const LoginPage = (props) => {
   const dispath = useDispatch();
+  const navigate = useNavigate();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
@@ -28,7 +29,7 @@ const LoginPage = (props) => {
     dispath(loginUser(body))
       .then(response => {
         if(response.payload.loginSuccess){
-          props.history.push('/');
+          navigate('/');
         }else{
           alert('Error');
         }
@@ -50,10 +51,10 @@ const LoginPage = (props) => {
         <label>Password</label>
         <input type="password" value={Password} onChange={onPasswordHandler} />
         <br />
-        <button>Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   )
 }
 
-export default withRouter(LoginPage);
+export default LoginPage;

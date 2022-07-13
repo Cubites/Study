@@ -1,0 +1,4 @@
+node_modules
+
+# for security
+config/dev.js

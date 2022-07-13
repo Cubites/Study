@@ -3,6 +3,11 @@
 * 모듈을 설치하면서 package.json 파일의 dependencies(의존성 모델) 목록에 넣기 위해서 붙임
 * 단 npm 6 버전 이상부터는 --save가 default로 되어있어 굳이 붙일 필요 없음
 
+## 2. /register 경로의 user.save((err, userInfo) => { ... })에서 userInfo가 무엇인가?
+* /register 는 회원가입 기능의 경로이므로 회원가입에 필요한 정보인 name, email, password를 post로 보내봄
+* userInfo 데이터를 터미널에 출력한 결과, mongoDB에 저장할 데이터가 출력되었음
+* 결론 : userInfo는 save 메서드가 생성한 callback으로, mongoDB에 저장할 데이터를 가지고 있는 값을 생성함
+
 # Question
 ## 1. userSchema.methods 와 userSchema.statics 의 차이
 * method => 객체의 인스턴스를 만들어야만 사용이 가능
