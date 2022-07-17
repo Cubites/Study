@@ -60,12 +60,26 @@
 * State를 관리하는 기술
 * redux data flow > 한 방향으로만 흐름
   * Action > Reducer > Store > React Component > Action > ...
-  * Reducer : Action을 받아 변한 State를 반환하는 역할을 함
+  * Reducer : Action을 받아 변한 State를 반환하는 역할을 함, function이고 data를 수정할 수 있음
   * Store : 모든 state를 관리하는 곳
+    * State : 실제로 데이터가 저장되어 있는 곳, 직접 접근 불가
+      <br>> state에 접근하려면 dispatch, subscribe, getState 같은 것들을 사용
+      * getState : render(UI 생성 역할) > getState > state > getState > render >> 웹 페이지 생성
+      * subscribe : state 값이 바뀔 때 자동으로 render가 실행(UI 생성)되게 해줌
+      * dispatch :
+      * replaceReducer :
+* 동작 과정 예시 : 글쓰기
+  > 1. button 클릭
+  > 2. action 실행 (예: <code>dispatch({type: 'create', payload:{title:title, desc:desc}}));</code>)
+  >   * dispatch 안의 내용이 action에 해당
 * 모듈
   * redux, react-redux, redux-promise, redux-thunk
   * redux-thunk : function state를 받을 수 있게 해줌
   * redux-promise : promise state를 받을 수 있게 해줌
+  * react-redux
+    * Provider : 어떤 component든 redux store에 접근할 수 있게 해주는 component
+* 동작
+
 
 ### combinReducers
 * 기본적으로 state마다 reducer가 필요함
