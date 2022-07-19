@@ -57,8 +57,8 @@ userSchema.methods.comparePassword = function(plainPassword, callback){
     // plainPassword == 암호화된 비밀번호 인지 확인 필요
     bcrypt.compare(plainPassword, this.password, function(err, isMatch){
         if(err) return callback(err);
-        callback(null, isMatch)
-    })
+        callback(null, isMatch);
+    });
 };
 
 userSchema.methods.generateToken = function(callback){

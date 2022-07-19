@@ -45,15 +45,15 @@ app.post('/api/users/register', (req, res) => {
 
 app.post('/api/users/login', (req, res) => {
     // 1. 요청받은 이메일을 데이터베이스에 있는지 확인
-    User.findOne({ email: req.body.email }, (err, user) => {
-        if(!user){
+    User.findOne({ email: req.body.email }, (err, user) => { // user : findOne 실행 결과인 데이터
+        if(!user){ // 요청받은 이메일 조회 결과 아무 데이터도 나오지 않은 경우, 에러메세지 출력
             return res.json({
                 loginSuccess: false,
                 message: "입력된 이메일에 해당하는 유저가 없습니다."
             });
         }
 
-        // 2. 요청받은 이메일이 데이터 베이스에 있으면, 비밀번호가 맞는지 확인
+        // 2. 요청받은 이메일 확인 후, 비밀번호가 맞는지 확인
         user.comparePassword(req.body.password, (err, isMatch) => { // comparePassword : User.js에서 만든 method
             if(!isMatch){
                 return res.json({
