@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import 'antd/dist/antd.min.css';
 import { applyMiddleware, createStore } from 'redux'; // applyMiddleware() : 입력한 미들웨어를 적용시켜줌
 import promiseMiddleware from 'redux-promise'; // action의 return 값으로 객체 뿐만아니라 Promise도 내보낼 수 있게 해줌
+// primiseMiddleware가 없으면 dispatch에서 에러 발생
 import ReduxThunk from 'redux-thunk'; // action의 return 값으로 객체 뿐만아니라 함수도 내보낼 수 있게 해줌
 import Reducer from './_reducers'; // index.js를 알아서 읽음
 

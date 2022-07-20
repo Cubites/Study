@@ -76,6 +76,10 @@
   * redux, react-redux, redux-promise, redux-thunk
   * redux-thunk : dispatch로 실행한 action의 결과로 function가 나와도 reducer에 보낼 수 있게 해줌
   * redux-promise : dispatch로 실행한 action의 결과로 promise가 나와도 reducer에 보낼 수 있게 해줌
+    * 사용하는 이유 
+      > action에서 axios 통신을 하게 되는데, axios 결과 값은 promise 임
+      > <br>> dispatch는 기본적으로 객체만 reducer에 전달할 수 있음
+      > <br>> 때문에 promise도 보낼 수 있게 해주는 redux-promise 미들웨어를 사용해야 함
   * react-redux
     * Provider : 어떤 component든 redux store에 접근할 수 있게 해주는 component
 * 동작

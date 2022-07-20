@@ -37,3 +37,19 @@
 * 문제: App.js에 있는 route의 element에 Auth를 적용해서 생긴 문제
 * 해결: Auth를 element가 아닌, 각 component 안에 export(내보내는) 부분의 component에 적용하면 해결됨
   <br>> component > views 안에 있는 component들 참고
+
+## 수업 내용 의문 (concurrently)
+* package.json 파일에 다음처럼 적은 이유
+<pre>
+"scripts": {
+  "start": "node server/index.js",
+  "backend": "nodemon server/index.js"
+  "concurrently \"npm run backend\" \"npm run start --prefix client\""
+}
+</pre>
+* 수업과 본인의 폴더 구조가 다름
+  * 수업
+    * client, server, node_moduels, package.json이 전부 같은 폴더에 있음
+    * nodejs 작업 때, 직접 만든 파일만 server 폴더에 있고 그 이외에는 전부 server 폴더 밖에 있음
+  * 본인
+    * client, server 만 같은 위치에 있고 node_modules 같은 것들은 server 폴더에 들어있음
