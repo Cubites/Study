@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 const app = express();
 app.set('port', process.env.PORT || 4000);
 
@@ -16,20 +17,23 @@ app.use(bodyParser.json());
 
 app.use(cookieParser()); // cookie-parser setting
 
+dotenv.config();
+
 // mongoose (웹 mongoDB 연결)
 const mongoose = require('mongoose');
-mongoose.connect(config.mongoURI)
+// mongoose.connect(config.mongoURI)
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
 
 
 
 // react test용 코드
-app.get('/', (req, res) => res.send('Hello World!'));
+// app.get('/', (req, res) => res.send('Hello World!'));
 
-app.get('/api/hello', (req, res) => {
-    res.send("안녕하세요 ~~");
-});
+// app.get('/api/hello', (req, res) => {
+//     res.send("안녕하세요 ~~");
+// });
 // react test용 코드
 
 
@@ -66,7 +70,7 @@ app.post('/api/users/login', (req, res) => {
                 if(err) return res.status(400).send(err);
 
                 // token을 저장해야 함 >> 쿠키, 로컬스토리지
-                res.cookie("x_auth", user.token)
+                res.cookie("x_auth", user.token) // cookie(쿠키이름, 쿠키 내용)
                     .status(200)
                     .json({ loginSuccess: true, userId: user._id});
             });

@@ -6,10 +6,10 @@ import Auth from '../../../hoc/auth';
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get('/api/hello')
-      .then(response => console.log(response.data));
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/hello')
+  //     .then(response => console.log(response.data));
+  // }, []);
 
   const onClickHandler = () => {
     axios.get('/api/users/logout')
