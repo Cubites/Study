@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import Auth from '../../../hoc/auth';
 
-const LoginPage = (props) => {
+const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [Email, setEmail] = useState("");
