@@ -49,3 +49,12 @@
   * 1. clone 할 폴더로 이동
   * 2. <code>git clone [repository 링크]</code>
   * 3. 유저 이름, access token 입력
+
+## EC2에서 RDS 연결
+* mariadb 패키지 설치
+  * <code>sudo yum install -y mariadb</code>
+* mariadb 버전 확인
+  * <code>mysql --version</code>
+* mariadb 연결
+  * <code>mysql -u 유저이름 -p -h 엔드포인트</code>
+  * <code>Enter password: 유저비밀번호</code>

@@ -28,3 +28,35 @@
     > @import "grid.scss"
     > @import "grid
     > </pre>
+
+### bootstrap
+* 설치: <code>npm install react-bootstrap bootstrap</code>
+
+### styled-components
+* 설치: <codE>npm install styled-components</code>
+* component 파일 내애서 css를 사용하여 태그를 생성하여 해당 component에 사용함
+* 예
+  <pre>
+  import styled from styled-components;
+
+  const home = styled.li`
+    font-size: 20px;
+    font-weight: bold;
+    $:hover{
+      background-color: #ddd;
+    }
+  `;
+
+  return(
+    <Home>메인 페이지 입니다</Home>
+  )
+  </pre>
+
+### Axios
+* 설치 : <code>npm install axios</code>
+
+### MySQL
+* 설치 : <code>npm install mysql</code>
+
+### Daum 우편번호 API
+* 설치 : <code>yarn add react-daum-postcode</code>
