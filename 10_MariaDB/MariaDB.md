@@ -34,14 +34,16 @@ const Mariadb = mariadb.createPool({
     database: process.env.DB_DATABASE
 });
 
-Mariadb.getConnection();
-
 app.post('/user', (req, res) => {
-    Mariadb.query('select * from user;')
-        .then(data => {
-            console.log(data);
-            res.send(data);
+    Mariadb.getConnection()
+        .then(conn => {
+            conn.query('select * from user;')
+                .then(data => {
+                    console.log(data);
+                    res.send(data);
+                })
+                .catch(err => console.log(err));
         })
-        .catch(err => res.send(err));
+        .catch(err -> console.log(err));
 });
 </pre>
