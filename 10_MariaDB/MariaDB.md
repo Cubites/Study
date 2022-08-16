@@ -47,3 +47,8 @@ app.post('/user', (req, res) => {
         .catch(err -> console.log(err));
 });
 </pre>
+
+# Auto-increment
+* 10.2.3 버전 이전인 경우, 서버를 재시작하면 테이블의 최대갓이 초기화되고 auto-increment = n 효과가 사라짐
+* 위 버전 이후에는 효과가 지속되도록 강화했으나 트랜젝션까지 보장되진 않음
+* auto-increment 값을 관리하는 방법은 스토리지 엔진(InnoDB, MyISAM)에 따라 다름
