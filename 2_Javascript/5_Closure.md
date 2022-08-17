@@ -1,27 +1,27 @@
 # Closure (클로저)
 ## 내부함수, 외부함수
 ### 예
-> <pre>
-> function outer() {
->     let word = "text";
->     function inner() {
->         alert(word);
->     }
->     return inner;
-> }
->
-> let outerFunc = outer();
-> outerFunc();
-> </pre>
+  ```javascript
+  function outer() {
+    let word = "text";
+    function inner() {
+      alert(word);
+    }
+    return inner;
+  }
+
+  let outerFunc = outer();
+  outerFunc();
+  ```
 * outer - 외부함수 / inner - 내부함수
 * 내부함수 inner는 외부함수 outer에서 선언된 변수 word를 사용할 수 있음
 * 만약, inner 함수가 다음과 같을 때
-  > <pre>
-  > function inner() {
-  >     let word = "text2"
-  >     alert(word);
-  > }
-  > </pre>
+  ```javascript
+  function inner() {
+    let word = "text2"
+    alert(word);
+  }
+  ```
   * "test2"를 출력하고 싶다면 word가 아닌 <code>this.word</code>를 사용해야 함
 
 ## Lexical scoping (어휘적 범위 지정)

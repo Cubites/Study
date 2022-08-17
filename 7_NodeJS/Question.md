@@ -21,12 +21,12 @@
 # Information
 ## 1. 객체(object)를 console.log() 로 출력하는 경우, 복사가 아닌 "참조"가 일어남
 * 예 : 아래 코드를 브라우저 콘솔에서 실행
-  > <pre>
-  > let obj = {};
-  > console.log(obj.length);
-  > obj.a = 1;
-  > console.log(obj.length);
-  > </pre>
+  ```javascript
+  let obj = {};
+  console.log(obj.length);
+  obj.a = 1;
+  console.log(obj.length);
+  ```
 * 최종 결과는 두 console.log 모두 같은 값인 {a: 1}이 된다.
   * 이유: console.log()는 참조를 하므로 <code>obj.a = 1</code>을 하기 전에 출력을 했더라도 그 후에 object가 변경되면 그 변경을 따라감
   * 해결책: 객체가 아닌 값을 출력하면 됨(예: arr의 경우 arr.length와 같은 값을 출력하면 됨)
