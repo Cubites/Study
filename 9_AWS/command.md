@@ -1,9 +1,11 @@
 ## vi
 * <code>sudo vi [파일명]</code> : vi 편집기로 파일 열기
-* 파일을 연 후, 사용되는 명령어
+* 파일을 연 후, 명령모드에서 사용되는 명령어
   * <code>:w</code> : 저장
   * <code>:q</code> : 닫기 
   * <code>:wq</code> : 저장 후 닫기
+  * <code>i</code> : 편집모드로 전환
+  * (편집모드 상태에서) esc 키 : 명령모드로 전환
 * <code>shift + insert</code> : 클립보드에 있는 내용 붙여넣기(내용이 너무 많으면 에러 발생)
 
 ## nginx
@@ -48,6 +50,7 @@
 * 방법
   * 1. clone 할 폴더로 이동
   * 2. <code>git clone [repository 링크]</code>
+    <br>> 특정 branch 다운은 <code>git clone -b <브런치 이름> --single-branch <저장소 URL></code>
   * 3. 유저 이름, access token 입력
 
 ## EC2에서 RDS 연결
