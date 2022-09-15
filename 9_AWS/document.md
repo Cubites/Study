@@ -43,5 +43,17 @@
 
  #### 4. HTTPS로 접속되는 것 확인
 
+## React build 파일 수정
+```bash
+# git에서 변경사항 적용
+git pull
+
+# client 폴더 안에서 기존 build 폴더 삭제
+rm -rf build
+
+# react 다시 build
+npm run build
+```
+
 # RDS
 * cloud Database 서비스
