@@ -7,6 +7,8 @@
   * <code>i</code> : 편집모드로 전환
   * (편집모드 상태에서) esc 키 : 명령모드로 전환
 * <code>shift + insert</code> : 클립보드에 있는 내용 붙여넣기(내용이 너무 많으면 에러 발생)
+* <code>shift + g</code> : 맨 아래로 커서 이동
+* <code>gg</code> : 최상단으로 커서 이동
 
 ## nginx
 * 셋팅 (인스턴스 중지 후 재실행 시, IP가 바뀌어 server_name 재설정 필요)

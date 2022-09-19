@@ -21,8 +21,11 @@
     })
   });
   ```
+  * DB와 연결이 필요할 때만 연결되고 통신이 끝나면 연결이 끊어짐
+  * 장점 : 연결이 필요할 때만 연결하여 리소스를 절약할 수 있음
+  * 단점 : DB와의 통신이 잦은 경우, 연결을 끊고 다시 연결하는 과정이 많아 오히려 리소스가 낭비됨
 
-### createPool()을 사용하는 방법
+### createPool()을 사용하는 방법 with async-await
 * DB에서 가져온 값을 Promise로 받아옴
   ```javascript
   const mariadb = require('mariadb');
@@ -34,19 +37,25 @@
     database: process.env.DB_DATABASE
   });
   
-  app.post('/user', (req, res) => {
-    Mariadb.getConnection()
-      .then(conn => {
-        conn.query('select * from user;')
-          .then(data => {
-            console.log(data);
-            res.send(data);
-          })
-          .catch(err => console.log(err));
-      })
-      .catch(err -> console.log(err));
+  app.post('/user', async (req, res) => {
+    try {
+      const conn = await Mariadb.getConnection();
+      try{
+        const userData = await conn.query('select * from user;');
+        res.status(200).send({success: true, data: userData});
+      }catch{
+        console.log('쿼리 에러 발생');
+        res.status(404).send({success: false, reason: 'Invalid Request'})
+      }
+    }catch{
+      console.log('DB connection 에러');
+      res.status(500).send({success: false, reason: 'DB Connection Error'});
+    }
   });
   ```
+  * DB와의 연결을 유지해 놓는 상태로 요청을 처리하는 방법
+  * 장점 : DB와의 통신이 잦은 경우 연결을 끊고 다시 연결하는 리소스를 절약할 수 있음
+  * 단점 : DB와의 통신이 드문 경우, 리소스가 낭비됨
 
 # Auto-increment
 * 10.2.3 버전 이전인 경우, 서버를 재시작하면 테이블의 최대갓이 초기화되고 auto-increment = n 효과가 사라짐
