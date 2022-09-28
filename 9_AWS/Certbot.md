@@ -5,7 +5,7 @@
 sudo wget -r --no-parent -A 'epel-release-*.rpm' http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/
 ```
 
-### 2. 리포지토치 패키지 설치
+### 2. 리포지토리 패키지 설치
 ```bash
 sudo rpm -Uvh dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-*.rpm
 ```
