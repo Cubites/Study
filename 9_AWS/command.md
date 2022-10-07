@@ -9,15 +9,17 @@
 * <code>shift + insert</code> : 클립보드에 있는 내용 붙여넣기(내용이 너무 많으면 에러 발생)
 * <code>shift + g</code> : 맨 아래로 커서 이동
 * <code>gg</code> : 최상단으로 커서 이동
+* 여러 줄 주석처리 : v(visual mode)에서 줄 선택 후 <code>:</code>, <code>norm i#</code>
+* 여러 줄 주석처리 해제 : v(visual mode)에서 줄 선택 후 <code>:</code>, <code>norm 1x</code>
 
 ## nginx
-* 셋팅 (인스턴스 중지 후 재실행 시, IP가 바뀌어 server_name 재설정 필요)
+* 셋팅
   * 서버 등록 (AWS책 36 페이지)
     <pre>
     # vi로 파일을 열음
     $ sudo vi /opt/nginx/conf/nginx.conf
     <br>
-    # server > server_name 값을 EC2 인스턴스의 IPv4 퍼블릭 주소 값으로 입력
+    # server > server_name 값 : EC2 인스턴스의 IPv4 퍼블릭 주소 값(or 도메인 네임)으로 입력
     server {
       listen 80;
       server_name 1.124.352.312;
@@ -29,7 +31,33 @@
 * <code>sudo /opt/nginx/sbin/nginx</code> : nginx 서버 실행
 * <code>sudo /opt/nginx/sbin/nginx -s stop</code> : nginx 서버 종료
 
-## nginx 간단 실행 셋팅
+## sites-enabled를 사용한 nginx 세팅
+* /etc/nginx/nginx.conf 파일 세팅
+  ```bash
+  http {
+    include /etc/nginx/sites-enabled/세팅파일명.conf
+  }
+  ```
+* /etc/nginx/sites-available/파일명.conf 세팅
+  ```bash
+  server {
+    listen 80;
+    listen 443;
+
+    server_name 도메인네임;
+
+    location / {
+      ...
+    }
+  }
+* sites-available, sites-enabled 연결
+  ```bash
+  sudo ln -s /etc/nginx/sites-available/파일명.conf /etc/nginx/sites-enabled/
+  ```
+  * sites-available에 있는 파일 수정 시, sites-enabled 파일에 수정 내역 자동 적용
+  * sites-enabled에 있는 파일이 nginx에 적용
+
+## nginx 실행 단축키 세팅
 * 책 39p
   * 1. /etc/init.d 에 nginx 파일 생성
     <pre>
