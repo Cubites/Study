@@ -27,3 +27,18 @@
         try_files $uri $uri/ /index.html =404;
     }
   ```
+
+### nginx 실행에러
+* 에러 메세지 : Failed to start The nginx HTTP and reverse proxy server.
+* 원인 
+  ```
+  예전에 nginx 에러 때문에 아파치로 서버 구현을 해보고자 시도할 때, "httpd를 재부팅 시 자동 실행"을 설정했었음
+  > 인스턴스를 재부팅하자 nginx를 실행할 포트를 httpd가 차지함
+  > 해당 포트에 이미 실행 중인 것이 있어 nginx 에러 발생
+  ```
+* 해결
+  ```bash
+  # 실행 중인 포트 확인
+  netstat -tylpn
+  # httpd 자동 실행 해제 후, httpd 종료 및 nginx 실행
+  ```
