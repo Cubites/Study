@@ -67,6 +67,9 @@ service youtrack start
 
 systemctl status youtrack
 # 실행 중인 youtrack의 상태 확인. active라고 표시되어 있어야 정상 실행 중
+
+# youtrack 첫 접속 시 필요한 토큰값 위치
+/home/youtrack/teamsysdata/conf/internal/services/configurationWizard/wizard_token.txt
 ```
 
 ## 4. Nginx 단축키 설정(with Nginx)
@@ -243,14 +246,12 @@ sudo vi /etc/nginx/sites-available/default
 # 해당 파일의 location을 아래 내용으로 작성
 
 location / {
-    proxy_pass http://[서버이름]:8080/?wizard_token=토큰값;
+    proxy_pass http://[서버이름]:8080;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
 }
 
-# 경로 = systemctl status youtrack.service 명령어 입력시 가장 마지막 줄에 나오는 경로
-# 예 : http://test:8080/?wizard_token=HrARrE3FEgRawE
 # 서버이름 : ubuntu 설치할 때 입력한 서버 이름
 # 포트 : /etc/init.d/youtrack 파일을 작성할 때 입력한 포트번호
 # 토큰값 : youtrack.jar 파일 실행 시 발급된 토큰

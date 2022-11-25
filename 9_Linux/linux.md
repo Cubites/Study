@@ -46,6 +46,18 @@ ls -al 폴더경로
 # 폴더경로 : 조회할 폴더 경로. 입력하지 않으면 현재 폴더가 지정됨
 ```
 
+### 서버 실행 시 자동 재부팅되는 프로그램 목록 조회
+```bash
+systemctl list-unit-files --state=enabled
+```
+
+### 설치되어 있는 패키지 조회
+```bash
+apt list --installed
+
+# 뒤에 "| greb 찾으려는_패키지_명"을 추가로 입력하면 특정 패키지 조회 가능
+```
+
 ## 권한 및 소유자 변경
 ### 권한 변경
 ```bash
@@ -85,4 +97,13 @@ cp /home/test/testfile.txt /home/test2/testfile2.txt
 ## 사용자 목록 조회
 ```bash
 cat /etc/passwd
+```
+
+## 리눅스 시스템 종료
+```bash
+# 1분 뒤 시스템 종료
+sudo shutdown
+
+# 즉시 시스템 종료
+sudo shutdown now
 ```
