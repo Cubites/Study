@@ -28,6 +28,8 @@ Proto Recv-Q Send-Q Local Address           Foreign Address         State       
 tcp        0      0 127.0.0.1:587           0.0.0.0:*               LISTEN      28071/sendmail: MTA
 tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1255/nginx: master
 ...
+
+# Program name 값이 표시되지 않는 경우 > 관리자 권한으로 시도하면 표시됨
 ```
 
 ## 조회
@@ -56,6 +58,14 @@ systemctl list-unit-files --state=enabled
 apt list --installed
 
 # 뒤에 "| greb 찾으려는_패키지_명"을 추가로 입력하면 특정 패키지 조회 가능
+
+# 설치되어 있는 패키지를 설치한 시간 순서대로 조회
+ll /var/lib/dpkg/info/*.list -t 
+```
+
+### 실행 중인 nodejs 프로세스 조회
+```bash
+ps -aef | grep node
 ```
 
 ## 권한 및 소유자 변경
