@@ -94,15 +94,28 @@ cat ~/test_message | s-nail -s 'Test email subject line' -r contact@example.com 
 ## SASL 설정
 ```bash
 # 필요한 라이브러리 설치
-apt install libsasl2-modules sasl2-bin
+apt install dovecot-core dovecot-pop3d dovecot-imtpd
 
 # 5개의 파일 수정 필요
 ## 10-auth : 접속 권한(SMTP 사용을 위해 로그인 접속 권한 추가 필요)
 ## 10-mail : 메일에 대한 설정(예: 메일함 위치 지정)
 ## 10-master : dovecot 설정(예: pop3 포트, ssl 사용 여부 등)
-## 1-ssl : SSL 설정(예: ssl 사용 여부, ssl 인증서 등록 등)
+## 10-ssl : SSL 설정(예: ssl 사용 여부, ssl 인증서 등록 등)
+## 20-pop3 : "pop3_uidl_format = %08Xu%08Xv" 주석처리 해제
+
+# postfix, dovecot 재부팅
+systectl restart postfix
+systemctl restart dovecot
+
+# pop3 접속 테스트
+telnet [메일 도메인 주소] 110
+# 접속 ip를 입력해도 됨
+# Dovecot ready가 나오면 접속 성공
 ```
 
+## Gmail로 메일이 보내지지 않는 문제
+* 추가 설정들이 필요하고 설정 중에 reverse Domain 설정이 있음
+  <br>> 이 설정을 하려면 최상위 인증기관의 인증을 받은 도메인(즉, 구매한 도메인)이 필요함
 
 ## Youtrack에 Postfix 메일 서버 적용
 

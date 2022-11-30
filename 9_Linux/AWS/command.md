@@ -15,7 +15,7 @@
 ## nginx
 * 셋팅
   * 서버 등록 (AWS책 36 페이지)
-    <pre>
+    ```bash
     # vi로 파일을 열음
     $ sudo vi /opt/nginx/conf/nginx.conf
     <br>
@@ -27,7 +27,7 @@
       ...
 
     }
-    </pre>
+    ```
 * <code>sudo /opt/nginx/sbin/nginx</code> : nginx 서버 실행
 * <code>sudo /opt/nginx/sbin/nginx -s stop</code> : nginx 서버 종료
 
@@ -60,20 +60,20 @@
 ## nginx 실행 단축키 세팅
 * 책 39p
   * 1. /etc/init.d 에 nginx 파일 생성
-    <pre>
+    ```bash
     $ cd /etc/init.d
     $ sudo vi nginx
-    </pre>
+    ```
   * 2. 링크(https://git.io/JeMFD)의 내용을 파일에 입력 후 저장
     * <code>shift + insert</code> : 클립보드 내용 붙여넣기
   * 3. <code>$ sudo chmod 755 nginx</code> 로 파일 권한 변경
 * 추가된 명령어
-  <pre>
-  $ sudo service nginx start # nginx 시작<br>
-  $ sudo service nginx stop # nginx 종료<br>
-  $ sudo service nginx restart # nginx 재시작<br>
+  ```bash
+  $ sudo service nginx start # nginx 시작
+  $ sudo service nginx stop # nginx 종료
+  $ sudo service nginx restart # nginx 재시작
   $ sudo service nginx status # nginx 프로세스 상태 확인
-  </pre>
+  ```
 
 
 ## git clone

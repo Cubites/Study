@@ -68,6 +68,22 @@ ll /var/lib/dpkg/info/*.list -t
 ps -aef | grep node
 ```
 
+### Global node 패키지 설치 위치 조회
+```bash
+npm root -g
+```
+
+### SSL 인증서 유효기간 확인
+```bash
+openssl x509 -in /ssl인증서경로/cert파일명 -noout -dates
+# cert파일명은 .pem, .crt, .cer 같은 확장자가 붙은 파일을 넣으면 됨
+```
+
+### SSL 인증서 정보 조회
+```bash
+openssl s_client -connect [도메인]:[포트]
+```
+
 ## 권한 및 소유자 변경
 ### 권한 변경
 ```bash
@@ -117,3 +133,7 @@ sudo shutdown
 # 즉시 시스템 종료
 sudo shutdown now
 ```
+
+# Q&A
+* sudo 명령어로 웹 서버를 실행하는 이유
+<br>: 기본 보트 0 ~ 1024 를 이용하여 프로그램을 실행할 때 root 권한이 필요함
