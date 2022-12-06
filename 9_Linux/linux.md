@@ -7,6 +7,9 @@ sudo systemctl start <프로세스명>
 
 # 서버 재시작 시 자동 재시작
 sudo systemctl enable <프로세스명>
+
+# 자동 재시작 해제
+sudo systemctl disable <프로세스명>
 ```
 
 ## 프로세스 확인
@@ -133,6 +136,44 @@ sudo shutdown
 # 즉시 시스템 종료
 sudo shutdown now
 ```
+
+## NAS 마운트
+* NFS : Linux/Unix 환경에서 주로 사용. 오래 됨. 원격 저장소, 공유 저장소 구축 목적
+* CIFS : Windows 환경에서 주로 사용. 파일 공유 목적
+```bash
+# nfs-common, cifs-utils 둘 중 하나 설치
+sudo apt install nfs-common
+sudo apt install cifs-utils
+
+# nas와 마운트
+## nfs-common
+sudo mount -t nfs //<IP 주소, 혹은 도메인>/<마운트 할 폴더 경로> /<마운트 할 폴더 경로>
+## cifs
+sudo mount -t cifs //<IP 주소, 혹은 도메인>/<마운트 할 폴더 경로> /<마운트 할 폴더 경로> -o username=<아이디>,password=<비밀번호>,rw
+### rw : 읽기(r), 쓰기(w) 권한 부여
+```
+
+## Sudo 권한 부여
+```bash
+# 방법 1. /etc/sudoers 파일 편집
+# 방법 2. /etc/sudoers.d 폴더에 파일을 생성하여 편집
+# sudoers에서 문법 오류 발생 시 sudo 명령어가 제대로 동작하지 않을 수 있음
+# 때문에 visudo 를 사용하여 문법 오류 발생 시 저장이 안되게 하는게 좋음
+sudo EDITOR=vi visudo /etc/sudoers.d/파일명
+# EDITOR 뒤에는 본인이 편한 편집기를 적으면 됨( ex) vi, vim, nano)
+
+# 작성 장법은 다음과 같음
+<사용자 명> <Host>=(<사용자 권한>:<그룹 권한>) NOPASSWD: <권한을 허용할 명령어>
+
+## 예시
+user ALL=(root) NOPASSWD: bin/rm /home/user/*.txt
+## >> 아무 경로(ALL)로 접속했을 때 user라는 사용자에게 /home/user 폴더 내 .txt 파일 삭제 명령에 대해 root 권한 부여. 명령어 사용 시 비밀번호 입력 필요없음(NOPASSWD)
+
+user ALL=(ALL) NOPASSWD: ALL
+## >> user라는 사용자에게 모든 명령어에 모든 권한 부여
+```
+
+
 
 # Q&A
 * sudo 명령어로 웹 서버를 실행하는 이유
