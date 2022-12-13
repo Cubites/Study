@@ -87,6 +87,16 @@ openssl x509 -in /ssl인증서경로/cert파일명 -noout -dates
 openssl s_client -connect [도메인]:[포트]
 ```
 
+### 사용자 목록 조회
+```bash
+cat /etc/passwd
+```
+
+### 환경변수 조회
+```bash
+vi /etc/environment
+```
+
 ## 권한 및 소유자 변경
 ### 권한 변경
 ```bash
@@ -121,11 +131,6 @@ cp 복사할_대상 복사할_위치
 # 예시
 cp /home/test/testfile.txt /home/test2/testfile2.txt
 # testfile.txt 파일을 /home/test2 폴더로 옮기고 파일명은 testfile2.txt로 변경함
-```
-
-## 사용자 목록 조회
-```bash
-cat /etc/passwd
 ```
 
 ## 리눅스 시스템 종료
