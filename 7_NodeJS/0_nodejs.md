@@ -65,3 +65,7 @@
 * devDependencies도 실행에 필요한 모듈이지만 개발 단계에서 필요한 모듈(배포 시, 필요 X)
 * 배포할 시 빌드 작업을 간소화 하기 위해, 개발 단계에만 필요하고 배포 시에는 필요없는 모듈들을 devDependencies에 적음
 * <code>npm install 모듈 -D</code>로 적으면 devDependencies에 기록됨
+
+## 클린 코딩 팁
+* app.js 는 간결하게
+* app.js(메인 파일) > route(연결 파일) > controller(실제 실행 코드)
