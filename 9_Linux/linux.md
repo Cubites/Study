@@ -178,6 +178,18 @@ user ALL=(ALL) NOPASSWD: ALL
 ## >> user라는 사용자에게 모든 명령어에 모든 권한 부여
 ```
 
+## 리눅스에서 윈도우로 파일 혹은 폴더 복사
+```bash
+# 파일 복사
+scp root@IP:/경로/파일명.확장자 윈도우_복사_위치_경로
+## 예시
+scp root@126.24.58.186:/home/test/testfile.txt C:\Users\copyplace
+
+# 폴더 복사
+scp -r root@IP:/경로/폴더명 윈도우_복사_위치_경로
+## 예시
+scp -r root@126.24.58.186:/home/test/testfolder C:\Users\copyplace
+```
 
 
 # Q&A
