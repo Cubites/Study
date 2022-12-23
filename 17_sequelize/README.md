@@ -102,3 +102,31 @@ npx sequelize-cli db:migrate
 // 3. sequelizemeta 라는 테이블 생성 됨
 ```
 * migration을 사용하는 이유 : 변경 로그가 남게 됨, 변경 사항을 되돌리고 싶을 때 사용할 수 있음
+
+### findOne, findAll 등의 함수를 사용할 때 model 이름은 파일명을 따라감
+* 예시
+```javascript
+// models/user.js 모델이 있는 경우
+const models = require('../models');
+
+const user = {};
+
+user.findUser = async (req, res, next) => {
+  try{
+    // 아래의 "user"위치의 값이 models 폴더 내에 있는 모델 파일명과 동일함
+    await models.user.findOne({
+      attribute: ['id', 'name'],
+      where: {
+        name: req.body.name
+      }
+    }).then(data => {
+      res.status(200).send(data);
+    });
+  }catch(e){
+    console.log(e);
+    res.status(500).send(e);
+  }
+}
+
+module.exports = user;
+```

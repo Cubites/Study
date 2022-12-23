@@ -1,5 +1,6 @@
-const { Op, HasMany, literal } = require('sequelize');
+const { Op, HasMany, literal, QueryTypes } = require('sequelize');
 const models = require('../models');
+const { sequelize } = require('../models/index');
 
 const db = {};
 
@@ -76,6 +77,40 @@ db.searchUser = async (req, res, next) => {
     }catch(e){
         res.status(500).send("db.searchUser error");
         next(e);
+    }
+}
+
+db.userUpdate = async (req, res, next) => {
+    console.log('req.body.after_name: ', req.body.after_name, '/ req.body.change_id: ', req.body.change_id);
+    try{
+        await models.user.update(
+            {
+                user_name: req.body.after_name
+            }, 
+            {
+                where: {id: req.body.change_id}
+            }
+        ).then(data => {
+            res.status(200).send(data);
+        })
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
+    }
+}
+
+db.totalSearch = async (req, res, next) => {
+    try{
+        await sequelize.query(`
+            SELECT us.user_id, up.user_name FROM users us
+            JOIN user_profiles up
+            ON us.id = up.id;
+        `).then(data => {
+            return res.status(200).send(data);
+        });
+    }catch(e){
+        console.log(e);
+        res.status(500).send(e);
     }
 }
 
