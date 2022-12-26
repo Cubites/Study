@@ -19,7 +19,7 @@
   * 국비교육 - Full stack 개발자 with react&node.js
 
 6. DBMS
-  * 국비교육 - Full stack 개발자 with react&node.js
+  * MySQL, MariaDB
 
 7. NodeJS
   * 국비교육 - Full stack 개발자 with react&node.js

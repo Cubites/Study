@@ -130,3 +130,63 @@ user.findUser = async (req, res, next) => {
 
 module.exports = user;
 ```
+
+### sequelize에서 join을 하려면 반드시 외래키를 지정해야함
+* 외래키 지정없이 join을 하려면 raw query를 작성하면 됨
+```javascript
+user.joinTest = async function(req, res, next){
+  let searchWord = req.body.word;
+  try{
+    /*
+      - sequelize.query 에서 sequelize는 models/index.js 생성한 이름
+      - 만약 다른 이름으로 정의했으면 그 이름으로 작성
+    */
+    await sequelize.query(`
+      SELECT 
+        us.id
+        , us.user_id
+        , up.user_name
+      FROM users us
+      JOIN userProfiles up
+      ON us.id = up.fkUserId
+      WHERE up.user_name LIKE '%${searchWord}%';
+    `, {type: QueryTypes.SELECT}).then(data => {
+      return res.status(200).send(data);
+    });
+  }catch(e){
+    console.log(e);
+    res.status(500).send(e);
+  }
+}
+```
+* 외래키는 가능한한 사용하지 않는게 좋음(제약이 커지기 때문)
+<br>> 때문에 Sequelize를 사용하려면 처음에 DB 설계를 매우 체계적으로 해 놓는것이 좋아보임
+
+### DB 여러개를 사용해야하는 경우 models/index.js 파일에서 .sequelize를 여러개 정의하면 됨
+* 주의 사항
+  * sequelize.query 같은 명령어(raw query를 작성할 때 사용)를 사용할 때 해당 DB의 변수 명을 사용해야함
+  ```javascript
+  // 예시 - models/index.js에서 아래와 같이 sequelize1, sequelize2로 정의한 경우
+  let db = {};
+  ...
+  db.sequelize1 = sequelize1;
+  db.sequelize2 = sequelize2;
+  
+  // 아래처럼 사용해야함
+  // * sequelize1에 raw query를 사용해야하는 경우
+  const { sequelize1, sequelize2 } = require('../models/index.js');
+
+  test.rawQueryTest = (req, res, next) => {
+    try{
+      await sequelize1.query(`
+        SELECT * FROM users LIMIT 10;
+      `)
+      .then(data => {
+        res.status(200).send(data);
+      })
+    }catch(e){
+      console.log(e);
+      res.status(500).send(e);
+    }
+  }
+  ```
