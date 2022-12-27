@@ -189,8 +189,17 @@ scp root@126.24.58.186:/home/test/testfile.txt C:\Users\copyplace
 scp -r root@IP:/경로/폴더명 윈도우_복사_위치_경로
 ## 예시
 scp -r root@126.24.58.186:/home/test/testfolder C:\Users\copyplace
+
+## ps. 혹시 복사가 안되는 경우 root가 아닌 일반 유저 계정으로 시도해볼 것
 ```
 
+## 파일 or 폴더 용량 확인
+```bash
+du -sh 파일명_or_폴더명
+# 예시
+du -sh ./test
+du -sh ./test.js
+```
 
 # Q&A
 * sudo 명령어로 웹 서버를 실행하는 이유

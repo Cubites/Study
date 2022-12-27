@@ -12,3 +12,31 @@
     <br/>(좌측 브랜치 목록에서 더블클릭하여 이동 가능)
     2. sourcetree의 병합을 누르고 병합할 브랜치(B브랜치) 클릭 후 확인
     3. 충돌이 발생한 경우, 해당 파일들에 충돌 사항이 자동 기록되므로 확인하고 정리 후 커밋하고 풀 진행
+
+## GitLab 관련 Linux 명령어
+```bash
+# gitlab 설정 적용(generate)
+sudo gitlab-ctl reconfigure
+
+# gitlab 재시작
+sudo gitlab-ctl restart
+
+# gitlab 상태 보기
+sudo systemctl status gitlab-runsvdir
+
+# gitlab 중지
+sudo gitlab-ctl stop
+
+# gitlab 실행
+sudo gitlab-ctl start
+
+# gitlab 서비스 삭제
+sudo gitlab-ctl uninstall
+```
+
+## GitLab 설정 파일 경로
+```bash
+# /etc/gitlab/gitlab.rb
+# /var/opt/gitlab/
+# /opt/gitlab/embedded/service/gitlab-rails/app/views
+```

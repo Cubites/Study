@@ -28,7 +28,10 @@
 desc 테이블명;
 
 -- 특정 DB의 특정 테이블 정보 조회
-SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='DB명' and table_name='테이블명';
+SELECT * FROM INFORMATION_SCHEMA.TABLES 
+WHERE 
+  table_schema='DB명' 
+  and table_name='테이블명';
 
 -- 특정 DB에 있는 외래키 조회
 select * from information_schema.table_constraints 
