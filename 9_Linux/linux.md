@@ -208,6 +208,12 @@ scp -r root@126.24.58.186:/home/test/testfolder C:\Users\copyplace
 ```
 
 ## 파일 or 폴더 용량 확인
+  | 옵션 | 기능 |
+  | -a | 모들 파일 크기 출력 |
+  | -h | 디렉토리/파일 크기를 KB/MB/GB 단위로 표시 |
+  | -max-depth=N | 최대 N번째 하위 디렉토리까지 표시 |
+  | --apparent-size | 실제 파일의 용량 표시 |
+  | -b | 바이트 단위 실제 파일의 용량 표시 |
 ```bash
 du -sh 파일명_or_폴더명
 # 예시

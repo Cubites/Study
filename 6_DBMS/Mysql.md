@@ -1,4 +1,33 @@
 # Mysql 명령어
+
+## 터미널에서 접속
+```bash
+mysql -u root -p
+# 그 뒤에 root 계정 비밀번호 입력
+
+# mysql 나가기
+mysql> exit;
+```
+
+## 유저관련 명령어
+```sql
+-- 유저 정보 조회
+use mysql;
+select user, host, password from user;
+
+-- 계정 생성
+CREATE USER 'mycollab'@'localhost' IDENTIFIED BY 'password';
+
+-- 계정에 권한 부여(예 : 특정 DB에 대해 모든 권한 부여)
+grant all privileges ON DB명.* TO '아이디'@'localhost';
+
+-- 환경 설정의 변경 사항을 MySQL 재부팅 없이 적용
+flush privileges;
+
+-- 계정 권한 조회
+show grants for 아이디@localhost;
+```
+
 ## DB 명령어
   | 명령어 | 설명 |
   | --- | --- |
@@ -27,6 +56,11 @@
 -- 테이블 컬럼 정보 조회
 desc 테이블명;
 
+-- 특정 DB의 모든 테이블 정보 조회
+SELECT * FROM INFORMATION_SCHEMA.TABLES 
+WHERE 
+  table_schema='DB명';
+
 -- 특정 DB의 특정 테이블 정보 조회
 SELECT * FROM INFORMATION_SCHEMA.TABLES 
 WHERE 
@@ -38,6 +72,9 @@ select * from information_schema.table_constraints
 where 
   constraint_schema = 'tmp_datatest' 
   and constraint_TYPE = 'FOREIGN KEY';
+
+-- 함수 & 프로시저 생성 가능 여부 확인(OFF : 생성불가 / ON : 생성가능)
+SHOW GLOBAL VARIABLES LIKE 'LOG_BIN_TRUST_FUNCTION_CREATORS';
 ```
 
 ### 데이터 조회

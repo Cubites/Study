@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>D3 그래프</title>
+    
+    <!-- CSS -->
+    <style>
+      h1{text-align: center;}
+      h2{text-align: center;}
+      .margin-auto{margin-left: auto; margin-right: auto;}
+      .d-block{display: block}
+      .text-center{text-align: center;}
+      fieldset{
+        margin: 5%;
+      }
+      legend{
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      form{
+        margin-top: 3%;
+      }
+      .graphs{
+        display: flex;
+      }
+      .graphBlock{
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        background-color: aliceblue;
+        border-radius: 5%;
+      }
+      .graphBlock p{
+        text-align: center;
+      }
+      .term{
+        width: 200px;
+        height: 50px;
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+    <fieldset>
+      <legend>기간 별 데이터 통계</legend>
+
+      <div class="text-center">
+        <form>
+          <select name="term" class="term" onchange="handleOnChange(this)">
+            <option value="1week">최근 1주</option>
+            <option value="2week">최근 2주</option>
+            <option value="1month" selected>최근 1개월</option>
+            <option value="3month">최근 3개월</option>
+            <option value="6month">최근 6개월</option>
+            <option value="1year">최근 1년</option>
+            <option value="all">전체</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="graphs">   
+        <div class="graphBlock">
+          <h2>시간대별 이용 횟수(연령대 표시)</h2>
+          <p>시간대별 이용한 횟수입니다.</p>
+          <p class="hourlyAgeUsageSummary"></p>
+          <div class="hourlyAgeUsageGraph"></div>
+        </div>
+        <div class="graphBlock">
+          <h2>요일별 이용 횟수(연령대 표시)</h2>
+          <p>요일별 이용한 그래프입니다.</p>
+          <p class="weeklyAgeUsageSummary"></p>
+          <div class="weeklyAgeUsageGraph"></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <script src="test.js"></script>
+</body>
+</html>

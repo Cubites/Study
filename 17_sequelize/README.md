@@ -1,6 +1,9 @@
 # Sequelize
 * DB하는 CRUD 작업을 query문 작성없이 할 수 있게 해주는 라이브러리
 
+## 테스트 DB
+* seq_db.sql 파일
+
 ## 초기 설정
 * sequelize 구성 생성
   ```bash

@@ -24,23 +24,23 @@
   * HTML Form 전송은 GET, POST만 지원
   * POST를 사용할 경우
     * 예)
-      > <pre>
-      > POST /save HTTP/1.1
-      > Host: localhost: 8080
-      > Content-Type: application/x-www-form-urlencoded
-      >
-      > username=kim&age=20
-      > </pre>
+      ```
+      POST /save HTTP/1.1
+      Host: localhost: 8080
+      Content-Type: application/x-www-form-urlencoded
+      
+      username=kim&age=20
+      ```
     * Content-Type: application/x-www-form-urlencoded 사용
       * 데이터를 form 태그를 사용하여 보낸다는 의미
     * 메시지 body로 데이터를 전송(key=value, 쿼리 파라미터 형식)
     * 전송 데이터를 url encoding 처리 (예: abc김 > abd%EA%B9%80)
   * GET을 사용할 경우 
     * 예)
-      > <pre>
-      > GET /members?usename=kim&age=20 HTTP/1.1
-      > Host: localhost: 8080
-      > </pre>
+      ```
+      GET /members?usename=kim&age=20 HTTP/1.1
+      Host: localhost: 8080
+      ```
     * GET은 메시지 body를 사용하지 않으므로 URI 경로에 쿼리로 데이터를 넣음
   * Content-Type: multipart/form-data
   
@@ -62,18 +62,20 @@
 ## HTTP API 설계 예시
 ### HTTP API - 컬렉션 : POST 기반 등록 (예: 회원 관리 API 제공)
 * 메소드 선정
-  > * 회원 목록 /members -> GET
-  > * 회원 등록 /members -> POST
-  > * 회원 조회 /members/{id} -> GET
-  > * 회원 수정 /members/{id} -> PATCH, PUT, POST
-  > * 회원 삭제 /members/{id} -> DELETE
+  ```
+  * 회원 목록 /members -> GET
+  * 회원 등록 /members -> POST
+  * 회원 조회 /members/{id} -> GET
+  * 회원 수정 /members/{id} -> PATCH, PUT, POST
+  * 회원 삭제 /members/{id} -> DELETE
+  ```
 * 클라이언트는 등록될 리소스의 URI를 모름
   * 회원 등록 /members -> POST /members
 * 서버가 리소스의 URI 생성
-  > <pre>
-  > HTTP/1.1 201 Created
-  > Location: /members/100
-  > </pre>
+  ```
+  HTTP/1.1 201 Created
+  Location: /members/100
+  ```
 * 컬렉션(Collection)
   * 서버가 관리하는 리소스 디렉토리
   * 서버가 리소스의 URI를 생성하고 관리
@@ -81,11 +83,13 @@
 
 ### HTTP API - 스토어 : PUT 기반 등록 (예: 정적 컨텐츠 관리, 원격 파일 관리)
 * 예
-  > * 파일 목록 /files -> GET
-  > * 파일 조회 /files/{filename} -> GET
-  > * 파일 등록 /files/{filename} -> PUT
-  > * 파일 삭제 /files/{filename} -> DELETE
-  > * 파일 대략 등록 /files -> POST
+  ```
+  * 파일 목록 /files -> GET
+  * 파일 조회 /files/{filename} -> GET
+  * 파일 등록 /files/{filename} -> PUT
+  * 파일 삭제 /files/{filename} -> DELETE
+  * 파일 대략 등록 /files -> POST
+  ```
 * 클라이언트가 리소스 URI를 알고 있어야 함
   * 파일 등록 /files/{filesname} -> PUT /files/star.jpg
 * 클라이언트가 직접 리소스의 URI를 지정
@@ -98,13 +102,15 @@
 * AJAX 같은 기술을 사용해서 해결 가능 -> 회원 API 참고
 * 순수 HTML, HTML FORM으로 예를 듬
 * 예
-  > * 회원 목록 /members -> GET
-  > * 회원 등록 폼 /members/new -> GET
-  > * 회원 등록 /members/new, /members -> POST
-  > * 회원 조회 /members/{id} -> GET
-  > * 회원 수정 폼 /members/{id}/edit -> GET
-  > * 회원 수정 /members/{id}/edit, /members/{id} -> POST
-  > * 회원 삭제 /members/{id}/delete -> POST
+  ```
+  * 회원 목록 /members -> GET
+  * 회원 등록 폼 /members/new -> GET
+  * 회원 등록 /members/new, /members -> POST
+  * 회원 조회 /members/{id} -> GET
+  * 회원 수정 폼 /members/{id}/edit -> GET
+  * 회원 수정 /members/{id}/edit, /members/{id} -> POST
+  * 회원 삭제 /members/{id}/delete -> POST
+  ```
 * 컨트롤 URI
   * GET, POST만 지원하는 제약의 해결을 위해 동사로 된 리소스 경로 사용
   * POST의 /new, /edit, /delete가 컨트롤 URI

@@ -7,7 +7,7 @@
 * x축, y축 눈금 표시
 * 그외, 다양한 것들이 가능
 
-## 예시
+## 예시(d3 v7 기준)
 ```javascript
 const width = window.outerWidth / 2; // 그래프 너비
 const height = 500; // 그래프 높이
@@ -75,11 +75,9 @@ bars.enter()
 // 막대 위에 값 출력
 bars.enter()
     .append('text')
-    .attr('x', d => {
-        return x(d.domain)
-    })
+    .attr('x', d => x(d.domain))
     .attr('y', d => y(d.value) - 5)
-    .text(d => `${d.value}`)
+    .text(d => d.count !== 0 ? `${d.count}` : '') // 값이 0이면 막대 위에 값을 출력하지 않음
     .attr('text-anchor', 'start');
 
 // x축 눈금과 y축 눈금 표시 방향 지정

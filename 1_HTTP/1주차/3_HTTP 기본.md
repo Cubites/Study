@@ -59,10 +59,12 @@
     * request-line : method SP(공백) request-target SP HTTP_version CRLF(엔터)
       * method : get, post 등
     * status-line : HTTP-version SP status-code SP reason-pharse CRLF
-      > * HTTP status-code(상태 코드)
-      >   * 200 : 성공
-      >   * 400 : 클라이언트 요청 오류
-      >   * 500 : 서버 내부 오류
+      ```
+      * HTTP status-code(상태 코드)
+        * 200 : 성공
+        * 400 : 클라이언트 요청 오류
+        * 500 : 서버 내부 오류
+      ```
   * 헤더
     * field-name":" OWS field-value OWS (OWS : 띄어쓰기 허용)
     * field-name은 대소문자 구분 X
