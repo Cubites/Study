@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
     <title>D3 그래프</title>
     
     <!-- CSS -->
@@ -17,14 +18,14 @@
       fieldset{
         margin: 5%;
       }
-      legend{
+      legend.graphTotalTitle{
         text-align: center;
         font-size: 40px;
         font-weight: bold;
         padding-left: 20px;
         padding-right: 20px;
       }
-      form{
+      form.selectTerm{
         margin-top: 3%;
       }
       .graphs{
@@ -38,7 +39,9 @@
         background-color: aliceblue;
         border-radius: 5%;
       }
-      .graphBlock p{
+      p.graphTitle,
+      p.hourlyAgeUsageSummary,
+      p.weeklyAgeUsageSummary{
         text-align: center;
       }
       .term{
@@ -52,10 +55,10 @@
 </head>
 <body>
     <fieldset>
-      <legend>기간 별 데이터 통계</legend>
+      <legend class="graphTotalTitle">기간 별 데이터 통계</legend>
 
       <div class="text-center">
-        <form>
+        <form class="selectTerm">
           <select name="term" class="term" onchange="handleOnChange(this)">
             <option value="1week">최근 1주</option>
             <option value="2week">최근 2주</option>
@@ -71,13 +74,13 @@
       <div class="graphs">   
         <div class="graphBlock">
           <h2>시간대별 이용 횟수(연령대 표시)</h2>
-          <p>시간대별 이용한 횟수입니다.</p>
+          <p class="graphTitle">시간대별 이용한 횟수입니다.</p>
           <p class="hourlyAgeUsageSummary"></p>
           <div class="hourlyAgeUsageGraph"></div>
         </div>
         <div class="graphBlock">
           <h2>요일별 이용 횟수(연령대 표시)</h2>
-          <p>요일별 이용한 그래프입니다.</p>
+          <p class="graphTitle">요일별 이용한 그래프입니다.</p>
           <p class="weeklyAgeUsageSummary"></p>
           <div class="weeklyAgeUsageGraph"></div>
         </div>

@@ -1,5 +1,5 @@
 /* 공통 옵션 */
-const width = window.outerWidth * 0.7 / 2; // 그래프 너비
+const width = window.outerWidth * 0.75 / 2; // 그래프 너비
 const height = 400; // 그래프 높이
 let [mt, mb, mr, ml] = [50, 50, 100, 100]; // 그래프 여백(위, 아래, 오른쪽, 왼쪽)
 
@@ -91,114 +91,190 @@ const drawGraph = (graphTag, sampleCountTag, data) => {
   sampleCount.innerText = `데이터 표본 수: ${data.length == undefined ? 0 : data.map(d => d.count).reduce((a, b) => a + b)} 개`;
 }
 
-const stackedBarGraph = (graphTag, sampleCountTag, data, stackLayer) => {
-  console.log(data);
+function stackedBarGraph(data, {
+  x = (d, i) => i, // given d in data, returns the (ordinal) x-value
+  y = d => d, // given d in data, returns the (quantitative) y-value
+  z = () => 1, // given d in data, returns the (categorical) z-value
+  title, // given d in data, returns the title text
+  marginTop = mt, // top margin, in pixels
+  marginRight = mr, // right margin, in pixels
+  marginBottom = mb, // bottom margin, in pixels
+  marginLeft = ml, // left margin, in pixels
+  width = width, // outer width, in pixels
+  height = height, // outer height, in pixels
+  xDomain, // array of x-values
+  xRange = [marginLeft, width - marginRight], // [left, right]
+  xPadding = 0.3, // amount of x-range to reserve to separate bars
+  yType = d3.scaleLinear, // type of y-scale
+  yDomain, // [ymin, ymax]
+  yRange = [height - marginBottom, marginTop], // [bottom, top]
+  zDomain, // array of z-values
+  offset = d3.stackOffsetDiverging, // stack offset method
+  order = d3.stackOrderNone, // stack order method
+  yFormat, // a format specifier string for the y-axis
+  yLabel, // a label for the y-axis
+  colors = d3.schemeTableau10, // array of colors
+  graphTag,
+  sampleCountTag
+} = {}) {
   // 기존에 그려진 그래프 삭제 - 콤보 박스 값을 바꿀 때 새 그래프를 추가하기 전에 기존 그래프를 지우기 위함
-  let removeSvg = d3.select(`div${graphTag}`).selectAll("svg").remove();
+  d3.select(`div${graphTag}`).selectAll("svg").remove();
 
-  // 그래프 구역 생성(<svg></svg>)
-  const svg = d3
-    .select(graphTag)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    // 그래프 실제 영역 지정(모서리 여백 제외)
-    .append('g')
-    .attr('width', graphWidth)
-    .attr('height', graphHeight)
-    .attr('transform', `translate(${ml}, ${mt})`);
-  
-  let parse = d3.timeFormat("%Y").parse;
+  const X = d3.map(data, x);
+  const Y = d3.map(data, y);
+  const Z = d3.map(data, z);
 
-  let dataset = d3.stack(stackLayer.map((age) => {
-    return data.map(d => {
-      return {x: d.domain, y: +d[age]};
-    });
-  }));
+  // Compute default x- and z-domains, and unique them.
+  if (xDomain === undefined) xDomain = X;
+  if (zDomain === undefined) zDomain = Z;
+  xDomain = new d3.InternSet(xDomain);
+  zDomain = new d3.InternSet(zDomain);
 
-  // x축 간격 지정 함수
-  const x = d3.scaleOrdinal()
-    .domain(dataset[0].map(d => d.domain))
-    .rangeRoundBands([10, graphWidth-10], 0.02);
+  // Omit any data not present in the x- and z-domains.
+  const I = d3.range(X.length).filter(i => xDomain.has(X[i]) && zDomain.has(Z[i]));
+  console.log("I: ", I);
+  // Compute a nested array of series where each series is [[y1, y2], [y1, y2],
+  // [y1, y2], …] representing the y-extent of each stacked rect. In addition,
+  // each tuple has an i (index) property so that we can refer back to the
+  // original data point (data[i]). This code assumes that there is only one
+  // data point for a given unique x- and z-value.
+  console.log("data : ", data);
 
-  // y 축 간격 지정 함수
-  const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.count)])
-    .range([graphHeight, 0]);
+  const series = d3.stack()
+      .keys(zDomain)
+      .value(([x, I], z) => Y[I.get(z)])
+      .order(order)
+      .offset(offset)
+    (d3.rollup(I, ([i]) => i, i => X[i], i => Z[i]))
+    .map(s => s.map(d => Object.assign(d, {i: d.data[1].get(s.key)})));
+
+  // Compute the default y-domain. Note: diverging stacks can be negative.
+  if (yDomain === undefined) yDomain = d3.extent(series.flat(2));
+
+  // Construct scales, axes, and formats.
+  const xScale = d3.scaleBand(xDomain, xRange).paddingInner(xPadding);
+  const yScale = yType(yDomain, yRange);
+  const color = d3.scaleOrdinal(zDomain, colors);
+  const xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
+  const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
+
+  // Compute titles.
+  if (title === undefined) {
+    const formatValue = yScale.tickFormat(100, yFormat);
+    title = i => `${X[i]}\n${Z[i]}\n${formatValue(Y[i])}`;
+  } else {
+    const O = d3.map(data, d => d);
+    const T = title;
+    title = i => T(O[i], i, data);
+  }
+
+  const svg = d3.select(graphTag)
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [0, 0, width, height])
+    .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
   svg.append("g")
-    .call(d3.axisLeft(y));
-  
-  let colors = d3.schemeTableau10;
-  let color = d3.scaleOrdinal()
-    .domain(stackLayer)
-    .range(colors);
+    .attr("transform", `translate(${ml},0)`)
+    .call(yAxis)
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick line").clone()
+      .attr("x2", width - ml - mr)
+      .attr("stroke-opacity", 0.1))
+    // .call(g => g.append("text")
+    //   .attr("x", -ml)
+    //   .attr("y", 10)
+    //   .attr("fill", "currentColor")
+    //   .attr("text-anchor", "start")
+    //   .text(yLabel));
 
-  let stackedData = d3.stack()
-    .keys(stackLayer)(data)
-
-  // Show the bars
-  svg.append("g")
-  .selectAll("g")
-  // Enter in the stack data = loop key per key = group per group
-  .data(data)
-  .enter().append("g")
-    .attr("fill", d => color(d.key))
+  console.log("series: ", series);
+  const bar = svg.append("g")
+    .selectAll("g")
+    .data(series)
+    .join("g")
+      .attr("fill", ([{i}]) => color(Z[i]))
     .selectAll("rect")
-    // enter a second time = loop subgroup per subgroup to add all rectangles
-    .data(function(d) { return d; })
-    .enter().append("rect")
-      .attr("x", function(d) { return x(d.data.group); })
-      .attr("y", function(d) { return y(d[1]); })
-      .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-      .attr("width",x.bandwidth())
+    .data(d => d)
+    .join("rect")
+      .attr("x", ({i}) => xScale(X[i]))
+      .attr("y", ([y1, y2]) => Math.min(yScale(y1), yScale(y2)))
+      .attr("height", ([y1, y2]) => Math.abs(yScale(y1) - yScale(y2)))
+      .attr("width", xScale.bandwidth());
+  
+  if (title) bar.append("title")
+    .text(({i}) => title(i));
 
+  svg.append("g")
+    .attr("transform", `translate(0,${yScale(0)})`)
+      .call(xAxis);
+  
+      data.sort((a,b) => {
+        return d3.descending(a.domain, b.domain);
+      });
+
+  // Draw legend
+  let legend = svg.selectAll(".legend")
+    .data(colors)
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
+
+  legend.append("rect")
+    .attr("x", graphWidth + 80)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+
+  legend.append("text")
+    .attr("x", graphWidth + 105)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .style("text-anchor", "start")
+    .text(function(d, i) { 
+      switch (i) {
+        case 0: return "<10";
+        case 1: return "10-19";
+        case 2: return "20-29";
+        case 3: return "30-39";
+        case 4: return "40-49";
+        case 5: return "50-59";
+        case 6: return "60-69";
+        case 7: return ">=70";
+      }
+    });
+
+
+  // Prep the tooltip bits, initial display is hidden
+  let tooltip = svg.append("g")
+    .attr("class", "tooltip")
+    .style("display", "none");
+    
+  tooltip.append("rect")
+    .attr("width", 30)
+    .attr("height", 20)
+    .attr("fill", "white")
+    .style("opacity", 0.5);
+
+  tooltip.append("text")
+    .attr("x", 15)
+    .attr("dy", "1.2em")
+    .style("text-anchor", "middle")
+    .attr("font-size", "12px")
+    .attr("font-weight", "bold");
+  
   let sampleCount = document.getElementsByClassName(sampleCountTag)[0];
   sampleCount.innerText = `데이터 표본 수: ${data.length == undefined ? 0 : data.map(d => d.count).reduce((a, b) => a + b)} 개`;
 }
 
 async function createTermTable(term, num){
-  // await fetch("---", {
-  //   method: "POST",
-  //   headers: {
-  //     "content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify({
-  //     term: term,
-  //     num: num
-  //   })
-  // })
-  await fetch('./test.json')
+  await fetch('http://localhost:5502/16_D3/test.json')
   .then((response) => response.json())
   .then((data) => {
+    console.log('data: ', data);
     /* 시간대별, 요일별 학습 그래프 (hourly, weekly Use) (연령대 포함) */
-
-    /** 시간대별 이용 횟수 그래프 **/
-    let hourCount = Array();
     
-    let age = ['<10', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '>=70'];
-    let now = new Date();
-
-    for(let i = 0; i < 24; i++){
-      hourCount.push({domain: i, '<10': 0, '10-19': 0, '20-29': 0, '30-39': 0, '40-49': 0, '50-59': 0, '60-69': 0, '>=70': 0, count: 0});
-    }
-    
-    for(let d of data){
-      let birthday = new Date(d.birthDate);
-      let dtc = new Date(d.createdAt);
-      let userAge = parseInt((now.getFullYear() - birthday.getFullYear()) / 10);
-      if(userAge >= 70){
-        hourCount[dtc.getHours()]['>=70'] += 1;
-        hourCount[dtc.getHours()].count += 1
-      }else{
-        hourCount[dtc.getHours()][age[userAge]] += 1;
-        hourCount[dtc.getHours()].count += 1
-      }
-    }
-
-    stackedBarGraph('.hourlyAgeUsageGraph', 'hourlyAgeUsageSummary', hourCount, age);
-    // drawGraph('.hourlyAgeUsageGraph', 'hourlyAgeUsageSummary', hourCount);
-
     /** 요일별 이용 횟수 그래프 **/
     let weekCount = [
       {domain: "일", count: 0}, 
@@ -216,8 +292,49 @@ async function createTermTable(term, num){
     }
 
     drawGraph('.weeklyAgeUsageGraph', 'weeklyAgeUsageSummary', weekCount);
+
+    /** 시간대별 이용 횟수 그래프 **/
+    let hourCount = Array();
+    
+    let ages = ['<10', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '>=70'];
+    let now = new Date();
+
+    for(let i = 0; i < 24; i++){
+      hourCount.push({domain: i, '<10': 0, '10-19': 0, '20-29': 0, '30-39': 0, '40-49': 0, '50-59': 0, '60-69': 0, '>=70': 0, count: 0});
+    }
+    
+    for(let d of data){
+      let birthday = new Date(d.birthDate);
+      let dtc = new Date(d.createdAt);
+      let userAge = parseInt((now.getFullYear() - birthday.getFullYear()) / 10);
+      if(userAge >= 70){
+        hourCount[dtc.getHours()]['>=70'] += 1;
+        hourCount[dtc.getHours()].count += 1
+      }else{
+        hourCount[dtc.getHours()][ages[userAge]] += 1;
+        hourCount[dtc.getHours()].count += 1
+      }
+    }
+    stateages = ages.flatMap(age => hourCount.map(d => ({domain: d.domain, age, count: d[age]})));
+    console.log('stateages :', stateages);
+
+    // stackedBarGraph('.hourlyAgeUsageGraph', 'hourlyAgeUsageSummary', hourCount, age);
+    // drawGraph('.hourlyAgeUsageGraph', 'hourlyAgeUsageSummary', hourCount);
+    chart = stackedBarGraph(stateages, {
+      x: d => d.domain,
+      y: d => d.count,
+      z: d => d.age,
+      xDomain: d3.groupSort(stateages, D => d3.sum(D, d => -d.count), d => d.domain),
+      yLabel: "↑ 연령대",
+      zDomain: ages,
+      colors: d3.schemeSpectral[ages.length],
+      width,
+      height,
+      graphTag: '.hourlyAgeUsageGraph',
+      sampleCountTag: 'hourlyAgeUsageSummary'
+    });
   });
-};
+}
 
 // 페이지가 로딩될때 실행
 window.onload = async function () {

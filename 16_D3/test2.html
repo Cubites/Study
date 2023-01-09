@@ -61,24 +61,27 @@ var data = [
 ];
 
 var parse = d3.time.format("%Y").parse;
+// d3 v7
+// let parse = d3.timeParse("%Y");
 
-
+console.log(data);
 // Transpose the data into layers
 var dataset = d3.layout.stack()(["redDelicious", "mcintosh", "oranges", "pears"].map((fruit) => {
   return data.map(function(d) {
     return {x: parse(d.year), y: +d[fruit]};
   });
 }));
+
 console.log(dataset);
 
 
 // Set x, y and colors
 var x = d3.scale.ordinal()
-  .domain(dataset[0].map(function(d) { return d.x; }))
+  .domain(dataset[0].map(d => d.x))
   .rangeRoundBands([10, width-10], 0.02);
 
 var y = d3.scale.linear()
-  .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
+  .domain([0, d3.max(dataset, (d) => d3.max(d, (d) => d.y0 + d.y))])
   .range([height, 0]);
 
 var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574"];
@@ -90,7 +93,7 @@ var yAxis = d3.svg.axis()
   .orient("left")
   .ticks(5)
   .tickSize(-width, 0, 0)
-  .tickFormat( function(d) { return d } );
+  .tickFormat(d => d);
 
 var xAxis = d3.svg.axis()
   .scale(x)
@@ -112,18 +115,18 @@ var groups = svg.selectAll("g.cost")
   .data(dataset)
   .enter().append("g")
   .attr("class", "cost")
-  .style("fill", function(d, i) { return colors[i]; });
+  .style("fill", (d, i) => colors[i]);
 
 var rect = groups.selectAll("rect")
-  .data(function(d) { return d; })
+  .data(d => d)
   .enter()
   .append("rect")
-  .attr("x", function(d) { return x(d.x); })
-  .attr("y", function(d) { return y(d.y0 + d.y); })
-  .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
+  .attr("x", d => x(d.x))
+  .attr("y", d => y(d.y0 + d.y))
+  .attr("height", d => y(d.y0) - y(d.y0 + d.y))
   .attr("width", x.rangeBand())
-  .on("mouseover", function() { tooltip.style("display", null); })
-  .on("mouseout", function() { tooltip.style("display", "none"); })
+  .on("mouseover", () => tooltip.style("display", null))
+  .on("mouseout", () => tooltip.style("display", "none"))
   .on("mousemove", function(d) {
     var xPosition = d3.mouse(this)[0] - 15;
     var yPosition = d3.mouse(this)[1] - 25;
@@ -137,13 +140,13 @@ var legend = svg.selectAll(".legend")
   .data(colors)
   .enter().append("g")
   .attr("class", "legend")
-  .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
+  .attr("transform", (d, i) => "translate(30," + i * 19 + ")");
  
 legend.append("rect")
   .attr("x", width - 18)
   .attr("width", 18)
   .attr("height", 18)
-  .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+  .style("fill", (d, i) => colors.slice().reverse()[i]);
  
 legend.append("text")
   .attr("x", width + 5)
