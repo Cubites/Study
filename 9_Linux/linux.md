@@ -222,6 +222,23 @@ du -sh ./test
 du -sh ./test.js
 ```
 
+## 자바 버전 바꾸기
+```bash
+# 현재 사용버전 조회
+java --version
+
+# 사용할 버전 변경
+sudo update-alternatives --config java
+# 위 명령어 입력 후, 나오는 목록에서 사용할 버전의 번호 입력 후 Enter(변경하지 않을 거면 빈칸인 상태에서 Enter)
+
+# 자바 컴파일러 버전 확인
+javac --version
+
+# 사용할 버전 변경
+sudo update-alternatives --config javac
+# 사용법은 위와 동일
+```
+
 # Q&A
 * sudo 명령어로 웹 서버를 실행하는 이유
 <br>: 기본 보트 0 ~ 1024 를 이용하여 프로그램을 실행할 때 root 권한이 필요함
