@@ -112,6 +112,11 @@ cat /etc/passwd
 vi /etc/environment
 ```
 
+### 리눅스 버전 조회
+```bash
+uname -a
+```
+
 ## 권한 및 소유자 변경
 ### 권한 변경
 ```bash
