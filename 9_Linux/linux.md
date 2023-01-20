@@ -95,6 +95,9 @@ npm root -g
 ```bash
 openssl x509 -in /ssl인증서경로/cert파일명 -noout -dates
 # cert파일명은 .pem, .crt, .cer 같은 확장자가 붙은 파일을 넣으면 됨
+
+# 다른방법
+certbot cerification
 ```
 
 ### SSL 인증서 정보 조회
