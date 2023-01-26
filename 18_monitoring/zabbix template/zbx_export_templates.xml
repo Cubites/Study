@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2023-01-18T05:15:54Z</date>
+    <groups>
+        <group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>d868f8c7630e462b9e8b0e6e78b619db</uuid>
+            <template>WINE Template</template>
+            <name>WINE Template</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>709630b0551e471a92775f68d8af3b29</uuid>
+                    <name>Zabbix agent status</name>
+                    <key>agent.ping</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return value == 1 ? 'Running' : 'Stop';</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>eac9a9f9f3a34d9e9ee5dd41f8c65523</uuid>
+                    <name>[WINE(java)]CPU utilization</name>
+                    <type>JMX</type>
+                    <key>jmx[&quot;java.lang:name={#JMXNAME},type=MemoryPool&quot;,&quot;Usage.used&quot;]</key>
+                    <status>DISABLED</status>
+                    <value_type>FLOAT</value_type>
+                    <jmx_endpoint>service:jmx:rmi:///jndi/rmi://{HOST.CONN}:{HOST.PORT}/jmxrmi</jmx_endpoint>
+                </item>
+                <item>
+                    <uuid>c855f6345fd946c6893c0311f99d96b1</uuid>
+                    <name>enp2s0 - Inbound packets discard</name>
+                    <key>net.if.in[&quot;enp2s0&quot;,dropped]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>81ce302290254427a68bdb5a09e983ac</uuid>
+                    <name>enp2s0 - Inbound packets with errors</name>
+                    <key>net.if.in[&quot;enp2s0&quot;, errors]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>c773ad2604ca4aaea875483052c07590</uuid>
+                    <name>enp2s0 - Bits reveiced</name>
+                    <key>net.if.in[&quot;enp2s0&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>8</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>c79d333b01a24a7cb9d3adfa32ef7b54</uuid>
+                    <name>enp2s0 - Outbound packets discard</name>
+                    <key>net.if.out[&quot;enp2s0&quot;, dropped]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>a63fd90263b3445b94e6c41cf822cba4</uuid>
+                    <name>enp2s0 - Outbound packets with errors</name>
+                    <key>net.if.out[&quot;enp2s0&quot;, errors]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>cec29db87bc945c6812ca0f14c5fe1af</uuid>
+                    <name>enp2s0 - Bits sent</name>
+                    <key>net.if.out[&quot;enp2s0&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>8</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>7743e215684247cd906f5b5de8610559</uuid>
+                    <name>enp2s0 - Net traffic total</name>
+                    <key>net.if.total[&quot;enp2s0&quot;]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>8</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>df73b70e90c3417196c631510f701316</uuid>
+                    <name>WINE Web server status</name>
+                    <key>net.tcp.service[http,,80]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>service running =&gt; Running
+service stop =&gt; Stop</description>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return value == 1 ? 'Running' : 'Stop';</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>b4f0205d36ba4fbc99353bbc9a90acf0</uuid>
+                    <name>Grafana server status</name>
+                    <key>net.tcp.service[http,,3000]</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return value == 1 ? 'Running' : 'Stop'</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>4e74dc755af344d29fc3db3214ecd590</uuid>
+                    <name>WINE Engine server status</name>
+                    <key>net.tcp.service[http,,8081]</key>
+                    <delay>3m</delay>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>service running =&gt; Running
+service stop =&gt; Stop</description>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return value == 1 ? 'Running' : 'Stop'; </parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>98372305a52d4058ae0716c884835bd8</uuid>
+                    <name>Cpu - utilization</name>
+                    <key>proc.cpu.util</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <description>CPU 사용량(퍼센트)</description>
+                </item>
+                <item>
+                    <uuid>a0198709451744e6bd07541366abdc80</uuid>
+                    <name>[WINE(java)]Memory - used</name>
+                    <key>proc.mem[java,,,,&lt;memtype&gt;]</key>
+                    <status>DISABLED</status>
+                </item>
+                <item>
+                    <uuid>290dd6f932cf41fc9f41d73af7006c4c</uuid>
+                    <name>system name</name>
+                    <key>system.hostname</key>
+                    <delay>15m</delay>
+                    <history>2w</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                </item>
+                <item>
+                    <uuid>803327c8a1ce4fabb663ed4ff9732ca9</uuid>
+                    <name>System local time</name>
+                    <key>system.localtime</key>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>const now = new Date(value * 1000);
+var nowText = now.getFullYear() + '-' 
+nowText += ('00' + (now.getMonth() + 1)).slice(-2) + '-' 
+nowText += ('00' + now.getDate()).slice(-2) + ' ' 
+nowText += ('00' + now.getHours()).slice(-2) + ':' 
+nowText += ('00' + now.getMinutes()).slice(-2) + ' +00:00';
+return nowText;</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>884be394909548b0836b18130770efbc</uuid>
+                    <name>uptime</name>
+                    <key>system.uptime</key>
+                    <description>uptime(sec)</description>
+                </item>
+                <item>
+                    <uuid>bf83287fd3e34f7fa9d689c6f6b2c2b4</uuid>
+                    <name>Disk - info</name>
+                    <key>vfs.dev.discovery</key>
+                    <delay>1m;50s/1-7,00:00-24:00</delay>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                </item>
+                <item>
+                    <uuid>80c5f76621e248bda9c9f68759751c33</uuid>
+                    <name>enp2s0 - Operational status</name>
+                    <key>vfs.file.contents[&quot;/sys/class/net/enp2s0/operstate&quot;]</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                </item>
+                <item>
+                    <uuid>f9d748f89bd84188ab9a1f42c60efc50</uuid>
+                    <name>enp2s0 - Speed</name>
+                    <key>vfs.file.contents[&quot;/sys/class/net/enp2s0/speed&quot;]</key>
+                    <delay>5m</delay>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                </item>
+                <item>
+                    <uuid>3aeab0b51d7b4ad8b6810d49fc89c4f3</uuid>
+                    <name>Disk - free</name>
+                    <key>vfs.fs.size[/,free]</key>
+                    <delay>1m;50s/1-7,00:00-24:00</delay>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>ae67b8415f32475e92edc417ab3dec6b</uuid>
+                    <name>Disk - used %</name>
+                    <key>vfs.fs.size[/, pused]</key>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                </item>
+                <item>
+                    <uuid>8a3399dc99d54be0be8429e84b4f2ae3</uuid>
+                    <name>Disk - total</name>
+                    <key>vfs.fs.size[/,total]</key>
+                    <delay>1m;50s/1-7,00:00-24:00</delay>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>2ba0d5fa584741818fbdedfd623503a5</uuid>
+                    <name>Disk - available</name>
+                    <key>vfs.fs.size[/,used]</key>
+                    <delay>1m;50s/1-7,00:00-24:00</delay>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>f5f58a74bc5f48e59a3319377d70df92</uuid>
+                    <name>Memory - available</name>
+                    <key>vm.memory.size[available]</key>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>8e0b7526deda4e90af7c01670d51bd87</uuid>
+                    <name>Memory - free</name>
+                    <key>vm.memory.size[free]</key>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>c4bd4fb9ede743bf8b11f94da59f2064</uuid>
+                    <name>Memory - available %</name>
+                    <key>vm.memory.size[pavailable]</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                </item>
+                <item>
+                    <uuid>8a9be00a2d2f484584ac9dc2d1fcab66</uuid>
+                    <name>Memory - used %</name>
+                    <key>vm.memory.size[pused]</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                </item>
+                <item>
+                    <uuid>b826f099a7364d5f8c3224d13fb50536</uuid>
+                    <name>Memory - total</name>
+                    <key>vm.memory.size[total]</key>
+                    <history>7d</history>
+                </item>
+                <item>
+                    <uuid>9197e91628294e2c9c36e862348be716</uuid>
+                    <name>Memory - used</name>
+                    <key>vm.memory.size[used]</key>
+                    <history>7d</history>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>

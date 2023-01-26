@@ -1,0 +1,361 @@
+{
+    "zabbix_export": {
+        "version": "6.0",
+        "date": "2023-01-18T05:15:58Z",
+        "groups": [
+            {
+                "uuid": "7df96b18c230490a9a0a9e2307226338",
+                "name": "Templates"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "d868f8c7630e462b9e8b0e6e78b619db",
+                "template": "WINE Template",
+                "name": "WINE Template",
+                "groups": [
+                    {
+                        "name": "Templates"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "709630b0551e471a92775f68d8af3b29",
+                        "name": "Zabbix agent status",
+                        "key": "agent.ping",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "return value == 1 ? 'Running' : 'Stop';"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "eac9a9f9f3a34d9e9ee5dd41f8c65523",
+                        "name": "[WINE(java)]CPU utilization",
+                        "type": "JMX",
+                        "key": "jmx[\"java.lang:name={#JMXNAME},type=MemoryPool\",\"Usage.used\"]",
+                        "status": "DISABLED",
+                        "value_type": "FLOAT",
+                        "jmx_endpoint": "service:jmx:rmi:///jndi/rmi://{HOST.CONN}:{HOST.PORT}/jmxrmi"
+                    },
+                    {
+                        "uuid": "c855f6345fd946c6893c0311f99d96b1",
+                        "name": "enp2s0 - Inbound packets discard",
+                        "key": "net.if.in[\"enp2s0\",dropped]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "81ce302290254427a68bdb5a09e983ac",
+                        "name": "enp2s0 - Inbound packets with errors",
+                        "key": "net.if.in[\"enp2s0\", errors]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c773ad2604ca4aaea875483052c07590",
+                        "name": "enp2s0 - Bits reveiced",
+                        "key": "net.if.in[\"enp2s0\"]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            },
+                            {
+                                "type": "MULTIPLIER",
+                                "parameters": [
+                                    "8"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c79d333b01a24a7cb9d3adfa32ef7b54",
+                        "name": "enp2s0 - Outbound packets discard",
+                        "key": "net.if.out[\"enp2s0\", dropped]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a63fd90263b3445b94e6c41cf822cba4",
+                        "name": "enp2s0 - Outbound packets with errors",
+                        "key": "net.if.out[\"enp2s0\", errors]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "cec29db87bc945c6812ca0f14c5fe1af",
+                        "name": "enp2s0 - Bits sent",
+                        "key": "net.if.out[\"enp2s0\"]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            },
+                            {
+                                "type": "MULTIPLIER",
+                                "parameters": [
+                                    "8"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "7743e215684247cd906f5b5de8610559",
+                        "name": "enp2s0 - Net traffic total",
+                        "key": "net.if.total[\"enp2s0\"]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "preprocessing": [
+                            {
+                                "type": "CHANGE_PER_SECOND",
+                                "parameters": [
+                                    ""
+                                ]
+                            },
+                            {
+                                "type": "MULTIPLIER",
+                                "parameters": [
+                                    "8"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "df73b70e90c3417196c631510f701316",
+                        "name": "WINE Web server status",
+                        "key": "net.tcp.service[http,,80]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "description": "service running => Running\nservice stop => Stop",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "return value == 1 ? 'Running' : 'Stop';"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "b4f0205d36ba4fbc99353bbc9a90acf0",
+                        "name": "Grafana server status",
+                        "key": "net.tcp.service[http,,3000]",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "return value == 1 ? 'Running' : 'Stop'"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "4e74dc755af344d29fc3db3214ecd590",
+                        "name": "WINE Engine server status",
+                        "key": "net.tcp.service[http,,8081]",
+                        "delay": "3m",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "description": "service running => Running\nservice stop => Stop",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "return value == 1 ? 'Running' : 'Stop'; "
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "98372305a52d4058ae0716c884835bd8",
+                        "name": "Cpu - utilization",
+                        "key": "proc.cpu.util",
+                        "history": "7d",
+                        "value_type": "FLOAT",
+                        "description": "CPU \uc0ac\uc6a9\ub7c9(\ud37c\uc13c\ud2b8)"
+                    },
+                    {
+                        "uuid": "a0198709451744e6bd07541366abdc80",
+                        "name": "[WINE(java)]Memory - used",
+                        "key": "proc.mem[java,,,,<memtype>]",
+                        "status": "DISABLED"
+                    },
+                    {
+                        "uuid": "290dd6f932cf41fc9f41d73af7006c4c",
+                        "name": "system name",
+                        "key": "system.hostname",
+                        "delay": "15m",
+                        "history": "2w",
+                        "trends": "0",
+                        "value_type": "CHAR"
+                    },
+                    {
+                        "uuid": "803327c8a1ce4fabb663ed4ff9732ca9",
+                        "name": "System local time",
+                        "key": "system.localtime",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "const now = new Date(value * 1000);\nvar nowText = now.getFullYear() + '-' \nnowText += ('00' + (now.getMonth() + 1)).slice(-2) + '-' \nnowText += ('00' + now.getDate()).slice(-2) + ' ' \nnowText += ('00' + now.getHours()).slice(-2) + ':' \nnowText += ('00' + now.getMinutes()).slice(-2) + ' +00:00';\nreturn nowText;"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "884be394909548b0836b18130770efbc",
+                        "name": "uptime",
+                        "key": "system.uptime",
+                        "description": "uptime(sec)"
+                    },
+                    {
+                        "uuid": "bf83287fd3e34f7fa9d689c6f6b2c2b4",
+                        "name": "Disk - info",
+                        "key": "vfs.dev.discovery",
+                        "delay": "1m;50s/1-7,00:00-24:00",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "80c5f76621e248bda9c9f68759751c33",
+                        "name": "enp2s0 - Operational status",
+                        "key": "vfs.file.contents[\"/sys/class/net/enp2s0/operstate\"]",
+                        "trends": "0",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "f9d748f89bd84188ab9a1f42c60efc50",
+                        "name": "enp2s0 - Speed",
+                        "key": "vfs.file.contents[\"/sys/class/net/enp2s0/speed\"]",
+                        "delay": "5m",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "3aeab0b51d7b4ad8b6810d49fc89c4f3",
+                        "name": "Disk - free",
+                        "key": "vfs.fs.size[/,free]",
+                        "delay": "1m;50s/1-7,00:00-24:00",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "ae67b8415f32475e92edc417ab3dec6b",
+                        "name": "Disk - used %",
+                        "key": "vfs.fs.size[/, pused]",
+                        "history": "7d",
+                        "trends": "0",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "8a3399dc99d54be0be8429e84b4f2ae3",
+                        "name": "Disk - total",
+                        "key": "vfs.fs.size[/,total]",
+                        "delay": "1m;50s/1-7,00:00-24:00",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "2ba0d5fa584741818fbdedfd623503a5",
+                        "name": "Disk - available",
+                        "key": "vfs.fs.size[/,used]",
+                        "delay": "1m;50s/1-7,00:00-24:00",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "f5f58a74bc5f48e59a3319377d70df92",
+                        "name": "Memory - available",
+                        "key": "vm.memory.size[available]",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "8e0b7526deda4e90af7c01670d51bd87",
+                        "name": "Memory - free",
+                        "key": "vm.memory.size[free]",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "c4bd4fb9ede743bf8b11f94da59f2064",
+                        "name": "Memory - available %",
+                        "key": "vm.memory.size[pavailable]",
+                        "history": "7d",
+                        "value_type": "FLOAT"
+                    },
+                    {
+                        "uuid": "8a9be00a2d2f484584ac9dc2d1fcab66",
+                        "name": "Memory - used %",
+                        "key": "vm.memory.size[pused]",
+                        "history": "7d",
+                        "value_type": "FLOAT"
+                    },
+                    {
+                        "uuid": "b826f099a7364d5f8c3224d13fb50536",
+                        "name": "Memory - total",
+                        "key": "vm.memory.size[total]",
+                        "history": "7d"
+                    },
+                    {
+                        "uuid": "9197e91628294e2c9c36e862348be716",
+                        "name": "Memory - used",
+                        "key": "vm.memory.size[used]",
+                        "history": "7d"
+                    }
+                ]
+            }
+        ]
+    }
+}
