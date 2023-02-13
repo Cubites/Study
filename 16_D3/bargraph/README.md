@@ -20,70 +20,80 @@ const graphHeight = height - mt - mb;
 // 그래프 색
 const graphColor = 'skyblue';
 
-// 그래프 구역 생성(<svg></svg> 태그 생성)
-const svg = d3
-    .select(graphTag) 
-    // graphTag : id 혹은 class 값. 그래프 영역인 svg 태크가 들어갈 위치
+/***********************************
+  drawbarGraph : 막대 그래프 그리는 함수
+  **********************************
+  - graphTab : 그래프를 넣을 태그 class (예: ".graph") 
+  - sampleCountTag : 데이터 표본 수를 넣을 태그 (예: ".sample")
+  - data : 표에 사용할 데이터. domain은 축에 표시할 텍스트, count는 데이터 값(하단에 데이터 예시)
+    [
+      {domain: "0시", count: 15},
+      {domain: "1시", count: 4},
+      ...
+    ]
+*/
+const drawbarGraph = (graphTag, sampleCountTag, data) => {
+  // 기존에 그려진 그래프 삭제 - 콤보 박스 값을 바꿀 때 새 그래프를 추가하기 전에 기존 그래프를 지우기 위함
+  let removeSvg = d3.select(`div${graphTag}`).selectAll("svg").remove();
+
+  // 그래프 구역 생성(<svg></svg>)
+  const svg = d3
+    .select(graphTag)
     .append('svg')
     .attr('width', width)
     .attr('height', height);
 
-// 그래프 실제 영역 지정(모서리 여백 제외)
-const graph = svg.append('g')
+  // 그래프 실제 영역 지정(모서리 여백 제외)
+  const graph = svg.append('g')
     .attr('width', graphWidth)
     .attr('height', graphHeight)
     .attr('transform', `translate(${ml}, ${mt})`);
 
-// 그래프 위치를 중앙으로 이동
-const xAxisG = graph.append('g')
+  // 그래프 위치를 중앙으로 이동
+  const xAxisG = graph.append('g')
     .attr('transform', `translate(0, ${graphHeight})`);
-const yAxisG = graph.append('g');
+  const yAxisG = graph.append('g');
 
-/*
-    data : 표에 사용할 데이터 (하단에 데이터 예시)
-        [
-            {domain: "0시", value: 15},
-            {domain: "1시", value: 4},
-            ...
-        ]
-*/
-
-// x축 간격 지정 함수
-const x = d3.scaleBand()
+  // x축 간격 지정 함수
+  const x = d3.scaleBand()
     .domain(data.map(d => d.domain))
     .range([0, graphWidth])
-    .padding(0.3); // 축 사이 간격 비율(막대 가로 두께가 변함)
+    .padding(0.3) // 축 사이 간격 비율(막대 가로 두께가 변함)
 
-// y 축 간격 지정 함수
-const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)])
+  // y 축 간격 지정 함수
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.count)])
     .range([graphHeight, 0]);
 
-// 막대 그래프 생성
-const bars = graph.selectAll('rect')
+  // 막대 그래프 생성
+  const bars = graph.selectAll('rect')
     .data(data);
-
-// 각 막대의 x축 위치, y축 높이, 모양, 색상 지정
-bars.enter()
+  
+  // 각 막대의 x축 위치, y축 높이, 모양 지정
+  bars.enter()
     .append('rect')
-    .attr('height', d => graphHeight - y(d.value))
+    .attr('height', d => graphHeight - y(d.count))
     .attr('width', x.bandwidth)
     .attr('fill', graphColor)
     .attr('x', d => x(d.domain))
-    .attr('y', d => y(d.value));
+    .attr('y', d => y(d.count));
 
-// 막대 위에 값 출력
-bars.enter()
+  // 막대 위에 값 출력
+  bars.enter()
     .append('text')
     .attr('x', d => x(d.domain))
-    .attr('y', d => y(d.value) - 5)
-    .text(d => d.count !== 0 ? `${d.count}` : '') // 값이 0이면 막대 위에 값을 출력하지 않음
+    .attr('y', d => y(d.count) - 5)
+    .text(d => d.count !== 0 ? `${d.count}` : '')
     .attr('text-anchor', 'start');
+  
+  // x축 눈금과 y축 눈금 표시 방향 지정
+  const xAxis = d3.axisBottom(x);
+  const yAxis = d3.axisLeft(y);
+  
+  xAxisG.call(xAxis);
+  yAxisG.call(yAxis);
 
-// x축 눈금과 y축 눈금 표시 방향 지정
-const xAxis = d3.axisBottom(x); // 축 아래로 생성 <=> axisTop
-const yAxis = d3.axisLeft(y); // 축 왼쪽으로 생성 <=> axisRight
-
-xAxisG.call(xAxis);
-yAxisG.call(yAxis);
+  let sampleCount = document.getElementsByClassName(sampleCountTag)[0];
+  sampleCount.innerText = `데이터 표본 수: ${data.length == undefined ? 0 : data.map(d => d.count).reduce((a, b) => a + b)} 개`;
+}
 ```
