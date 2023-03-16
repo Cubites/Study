@@ -29,3 +29,29 @@
   | slice(index1, index2) | 지정한 배열의 index1 부터 index2 앞까지를 얕은 복사한 값을 새로운 배열 객체로 반환 |
   | splice(start[, deleteCount[, item1[, item2[, ...]]]]) | 지정한 배열의 start 부터 deleteCount 개의 값을 item1, ...로 대체 |
   | concat(array1) | 지정한 배열과 array1 배열을 합쳐 새 배열을 반환 | 
+
+## 에러
+### Uncaught SyntaxError: Cannot use import statement outside a module
+* import문은 JavaScript 파일이 아니라 JavaScript 모듈에서 동작함
+* 해결법: import문을 사용할 파일을 html에 불러올 때 <script>태그에 type="module" 이라는 속성을 추가함
+  * JavaScript 파일 예
+    ```javascript
+      // 파일명 = testFile.js
+      import testModule from './testModule.js';
+      console.log(testModule());
+    ```
+  * HTML 파일 예
+    ```html
+    ...
+    <html>
+      <header>
+        ...
+        <script src="./testModule.js"></script>
+      </header>
+      <body>
+        ...
+        <script type="module" src="./testFile.js"></script>
+      </body>
+      ...
+    </html>
+    ```
