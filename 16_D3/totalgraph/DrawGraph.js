@@ -2,14 +2,13 @@ import * as d3 from 'd3';
 
 function DrawBarGraph(GraphTag, ChartData, {
   Title,
-  Domain,
   OuterWidth = document.querySelector(`.${GraphTag}`).offsetWidth, 
   OuterHeight = document.querySelector(`.${GraphTag}`).offsetHeight, 
   Margin = {top: 50, bottom: 100, left: 100, right: 100},
   Colors = d3.schemeCategory10
 } = {}) {
   // 기존에 그려진 그래프 삭제 - 콤보 박스 값을 바꿀 때 새 그래프를 추가하기 전에 기존 그래프를 지우기 위함
-  let removeSvg = d3.select(`div${GraphTag}`).selectAll("svg").remove();
+  d3.select(`div${GraphTag}`).selectAll("svg").remove();
 
   // 그래프 크기
   const GraphWidth = OuterWidth - Margin.left - Margin.right;
@@ -242,12 +241,12 @@ function DrawGroupedGraph(GraphTag, ChartData, {
   d3.select(`div.${GraphTag}`).selectAll("svg").remove();
 
   // 데이터 추출
-  const x = d => d.domain;
-  const y = d => d.count;
-  const z = d => d.legend;
-  const X = d3.map(ChartData, x);
-  const Y = d3.map(ChartData, y);
-  const Z = d3.map(ChartData, z);
+  // const x = d => d.domain;
+  // const y = d => d.count;
+  // const z = d => d.legend;
+  const X = d3.map(ChartData, d => d.domain);
+  const Y = d3.map(ChartData, d => d.count);
+  const Z = d3.map(ChartData, d => d.legend);
 
   let xDomain = X;
   let yDomain = [0, d3.max(Y)];
@@ -340,6 +339,148 @@ function DrawGroupedGraph(GraphTag, ChartData, {
   }
 }
 
+function DrawHorizontalStackedBarGraph(GraphTag, ChartData, {
+  Title, 
+  Legend,
+  Margin = {top: 50, bottom: 100, left: 100, right: 100},
+  OuterWidth = document.querySelector(`.${GraphTag}`).offsetWidth, 
+  OuterHeight = document.querySelector(`.${GraphTag}`).offsetHeight, 
+  xType = d3.scaleLinear, // type of x-scale
+  xDomain, // [xmin, xmax]
+  yDomain, // array of y-values
+  yPadding = 0.1, // amount of y-range to reserve to separate bars
+  zDomain, // array of z-values
+  offset = d3.stackOffsetDiverging, // stack offset method
+  order = d3.stackOrderNone, // stack order method
+  xFormat, // a format specifier string for the x-axis
+  xLabel, // a label for the x-axis
+  Colors = d3.schemeTableau10, // array of Colors
+} = {}) {
+  d3.select(`div.${GraphTag}`).selectAll("svg").remove();
+
+  // X, Y, Z 데이터 계산
+  const X = d3.map(ChartData, d => d.count);
+  const Y = d3.map(ChartData, d => d.domain);
+  const Z = d3.map(ChartData, d => d.legend);
+
+  // Y, Z 축 도메인 중복 제거
+  if (yDomain === undefined) yDomain = Y;
+  if (zDomain === undefined) zDomain = Z;
+  yDomain = new d3.InternSet(yDomain);
+  zDomain = new d3.InternSet(zDomain);
+
+  // Y, Z 도메인에 없는 데이터 생략
+  const I = d3.range(X.length).filter(i => yDomain.has(Y[i]) && zDomain.has(Z[i]));
+
+  // X, Y 축 범위 지정
+  const xRange = [Margin.left, OuterWidth - Margin.right];
+  const yRange = [OuterHeight - Margin.bottom, Margin.top];
+
+  // Compute a nested array of series where each series is [[x1, x2], [x1, x2],
+  // [x1, x2], …] representing the x-extent of each stacked rect. In addition,
+  // each tuple has an i (index) property so that we can refer back to the
+  // original data point (data[i]). This code assumes that there is only one
+  // data point for a given unique y- and z-value.
+  const series = d3.stack()
+      .keys(zDomain)
+      .value(([, I], z) => X[I.get(z)])
+      .order(order)
+      .offset(offset)
+    (d3.rollup(I, ([i]) => i, i => Y[i], i => Z[i]))
+    .map(s => s.map(d => Object.assign(d, {i: d.data[1].get(s.key)})));
+
+  // x축 도메인 기본 값 계산. (주의: diverging stack(예: 좌우로 퍼지는 그래프)은 값이 음수로 나올 수도 있음)
+  if (xDomain === undefined) xDomain = d3.extent(series.flat(2));
+
+  // Construct scales, axes, and formats.
+  const xScale = xType(xDomain, xRange);
+  const yScale = d3.scaleBand(yDomain, yRange).paddingInner(yPadding);
+  const color = d3.scaleOrdinal(zDomain, Colors);
+  const xAxis = d3.axisTop(xScale).ticks(OuterWidth / 80, xFormat);
+  const yAxis = d3.axisLeft(yScale).tickSizeOuter(0);
+
+  const svg = d3.select(`div.${GraphTag}`)
+    .append("svg")
+    .attr("width", OuterWidth)
+    .attr("height", OuterHeight)
+    .attr("viewBox", [0, 0, OuterWidth, OuterHeight])
+    .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+
+  svg.append("g")
+    .attr("transform", `translate(0,${Margin.top})`)
+    .call(xAxis)
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick line").clone()
+      .attr("y2", OuterHeight - Margin.top - Margin.bottom)
+      .attr("stroke-opacity", 0.1))
+    .call(g => g.append("text")
+      .attr("x", OuterWidth - Margin.right)
+      .attr("y", -22)
+      .attr("fill", "currentColor")
+      .attr("text-anchor", "end")
+      .text(xLabel));
+
+  const bar = svg.append("g")
+    .attr('class', 'stacked-bars')
+    .selectAll("g")
+    .data(series)
+    .join("g")
+      .attr("fill", ([{i}]) => color(Z[i]))
+    .selectAll("rect")
+    .data(d => d)
+    .join("rect")
+      .attr("x", ([x1, x2]) => Math.min(xScale(x1), xScale(x2)))
+      .attr("y", ({i}) => yScale(Y[i]))
+      .attr("width", ([x1, x2]) => Math.abs(xScale(x1) - xScale(x2)))
+      .attr("height", yScale.bandwidth())
+
+  svg.append("g")
+    .attr("transform", `translate(${xScale(0)},0)`)
+    .call(yAxis);
+  
+  // 막대 위에 값 출력
+  svg.selectAll('rect')
+  .data(series)
+    .enter()
+    .append('text')
+    .attr("x", ([x1, x2]) => Math.min(xScale(x1), xScale(x2)))
+      .attr("y", ({i}) => yScale(Y[i]))
+      .attr("width", ([x1, x2]) => Math.abs(xScale(x1) - xScale(x2)))
+      .attr("height", yScale.bandwidth())
+    .text(d => d.count !== 0 ? `${d.count}` : '')
+    .attr('text-anchor', 'start')
+
+  // 그래프에 제목 추가
+  svg.append('text')
+  .attr('x', OuterWidth / 2)
+  .attr('y', Margin.top / 2)
+  .attr('text-anchor', 'middle')
+  .style('text-size', '10px')
+  .style('font-weight', 'bold')
+  .text(Title);
+
+  // 범례 사이 간격 계산
+  let legendWidthLength = [0];
+  for(let i = 0; i < Legend.length; i++){
+    legendWidthLength.push(legendWidthLength[i] + Legend[i].length * 15 + 30);
+  }
+
+  // 범례 추가
+  for(let i = 0; i < Legend.length; i++){
+    svg.append("circle")
+      .attr("cx", (OuterWidth - legendWidthLength[legendWidthLength.length - 1]) / 2 + legendWidthLength[i])
+      .attr("cy", OuterHeight - Margin.bottom / 2)
+      .attr("r", 6)
+      .style("fill", Colors[i]);
+    svg.append("text")
+      .attr("x", (OuterWidth - legendWidthLength[legendWidthLength.length - 1]) / 2 + legendWidthLength[i] + 10)
+      .attr("y", OuterHeight - Margin.bottom / 2 + 2)
+      .text(Legend[i])
+      .style("font-size", "15px")
+      .attr("alignment-baseline","middle");
+  }
+}
+
 const ChartSelector = (ChartType, GraphTag, ChartData, {
   Title,
   Domain,
@@ -366,6 +507,14 @@ const ChartSelector = (ChartType, GraphTag, ChartData, {
       DrawGroupedGraph(GraphTag, ChartData, {
         Title, Domain, Legend, OuterWidth, OuterHeight, Margin, XPadding, ZPadding, Colors
       });
+      break;
+    case 'horizontal-stacked-bar':
+      DrawHorizontalStackedBarGraph(GraphTag, ChartData, {
+        Title, Domain, Legend, OuterWidth, OuterHeight, Margin, XPadding, ZPadding, Colors
+      });
+      break;
+    default:
+      break;
   }
 
 }
