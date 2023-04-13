@@ -2,6 +2,52 @@
 * 데이터를 시각적으로 표현할 때 사용하는 패키지
 * 막대그래프, 원형그래프부터 지도까지 다양한 것들 표현 가능
 
+## D3 함수
+### create() 와 append()의 차이점
+* create()는 DOM 요소를 선택하지 않아도 요소를 생성할 수 있음
+  ```javascript
+    d3.create("g")
+      .attr( ... )
+  ```
+* append()는 DOM 요소를 선택하고 사용해야하며, 생성과 해당 DOM요소에 추가하는 과정을 한번에 실행함
+  ```javascript
+    d3.select("svg")
+      .append("g")
+      .attr( ... )
+  ```
+* 결론
+  * create()는 Dom 요소에 바로 적용하지 않고 선택자로 생성해 놓을 때 사용함
+  * append()는 Dom 요소에 즉시 적용할 때 사용함
+  * 일반적으로 append()를 많이 사용함
+
+### min, max, extent
+* d3.min
+  * 입력한 배열 값 중, 최솟값을 반환
+  * 날짜는 가장 과거의 값을 반환
+  * Math.min()과 달리 NaN, Null, undefined는 무시
+  * 비교 불가능한 값만 있는 경우 undefined 반환
+  ```javascript
+    d3.min([2, 4, 6, 8, 10]); // >> 2
+    d3.min([Date(2020, 9, 30), Date(2022, 10, 10)]) // >> 2022-10-10
+    d3.min([1, 2, 3, NaN, null, undefined]) // >> 1
+    d3.min([]) // >> undefined
+  ```
+* d3.max
+  * 입력한 배열 값 중, 최댓값을 반환
+  * 날짜는 가장 최근 시간을 반환
+  ```javascript
+    d3.max([2, 4, 6, 8, 10]);
+    >> 10
+
+    d3.extent([2, 4, 6, 8, 10]);
+    >> [2, 10]
+    
+    d3.minIndex([2, 4, 6, 8, 10]);
+    >> 0
+
+    d3.maxIndex([2, 4, 6, 8, 10]);
+    >> 4
+
 ## 그래프(Chart)
 * 예시 파일: totalgraph(d3 v7 기준)
   * 사용법

@@ -14,3 +14,10 @@
   * props가 바뀔 때
   * state가 바뀔 때
   * 부모 component가 리렌더링될 때
+
+### EventListener
+* Eventlistener를 따로 제거하지 않으면 계속 누적되고 메모리 누수의 원인이 됨
+* 때문에 불필요한 EventListener는 주기적으로 제거할 필요성이 있음
+* React 내장 EventListener들은 React에서 알아서 정리해 줌
+* window.addEventListener 같은 React에서 제공하는 리스너가 아니면 수동으로 제거해주어야 함
+  * window.removeEventListener로 제거 가능
