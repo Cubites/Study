@@ -47,6 +47,7 @@
 
     d3.maxIndex([2, 4, 6, 8, 10]);
     >> 4
+  ```
 
 ## 그래프(Chart)
 * 예시 파일: totalgraph(d3 v7 기준)

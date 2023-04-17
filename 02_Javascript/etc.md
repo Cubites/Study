@@ -30,6 +30,40 @@
   | splice(start[, deleteCount[, item1[, item2[, ...]]]]) | 지정한 배열의 start 부터 deleteCount 개의 값을 item1, ...로 대체 |
   | concat(array1) | 지정한 배열과 array1 배열을 합쳐 새 배열을 반환 | 
 
+## this
+* 일반 function
+  * this에 바인딩할 객체가 동적으로 결정됨
+  ```javascript
+    function test(){
+      this.fruit = "apple";
+      return {
+        fruit: 'banana',
+        content: function(){
+          console.log(this.fruit);
+        }
+      }
+    }
+  const test1 = new test();
+  test1.content(); // 'banana'
+  ```
+* Arrow function
+  * this에 바인딩할 객체가 함수 선언 시 정적으로 결정됨
+  ```javascript
+    function test(){
+      this.fruit = "apple";
+      return {
+        fruit: 'banana',
+        content: () => {
+          console.log(this.fruit);
+        }
+      }
+    }
+  const test2 = new test();
+  test2.content(); // 'apple'
+  ```
+
+
+
 ## 에러
 ### Uncaught SyntaxError: Cannot use import statement outside a module
 * import문은 JavaScript 파일이 아니라 JavaScript 모듈에서 동작함
