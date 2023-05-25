@@ -10,6 +10,7 @@ sudo systemctl enable <프로세스명>
 
 # 자동 재시작 해제
 sudo systemctl disable <프로세스명>
+sudo update-rc.d apache2 remove # ubuntu 14 이전 버전, debian 등 다른 linux에서 사용
 ```
 
 ## 프로세스 확인
@@ -97,7 +98,7 @@ openssl x509 -in /ssl인증서경로/cert파일명 -noout -dates
 # cert파일명은 .pem, .crt, .cer 같은 확장자가 붙은 파일을 넣으면 됨
 
 # 다른방법
-certbot cerification
+certbot certificates
 ```
 
 ### SSL 인증서 정보 조회

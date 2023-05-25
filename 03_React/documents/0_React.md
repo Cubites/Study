@@ -21,3 +21,32 @@
 * React 내장 EventListener들은 React에서 알아서 정리해 줌
 * window.addEventListener 같은 React에서 제공하는 리스너가 아니면 수동으로 제거해주어야 함
   * window.removeEventListener로 제거 가능
+
+### State
+#### State 생성
+```javascript
+  import { useState } from 'react';
+
+  const MainPage = () => {
+    const [List, setList] = useState();
+
+    return (
+      ...
+    )
+  }
+```
+#### Object State의 수정
+* Object State를 즉시 수정하는 방법
+```javascript
+  // 부모 component에 List라는 State가 있는 경우
+  const SubPage = ({List, setList}) => {
+    setList(() => {
+      return {...{name: john, age: 25}}
+    });
+
+    return (
+      ...
+    )
+  }
+```
+  * Callback 형태로 넣으면 됨

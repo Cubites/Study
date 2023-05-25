@@ -49,6 +49,58 @@
     >> 4
   ```
 
+### rect
+* 사각형을 그리는 태그
+* 이 태그 안에 text, tspan같은 태그를 넣으면 전부 무시됨
+  * 때문에 글자를 넣으려면 rect 태그 밖에 추가해야 함
+* rect 태그 속성
+  ```html
+    <rect
+      x="x축 방향 좌표" y="y축 방향 좌표"
+      width="사각형 너비" height="사각형 높이"
+      fill="사각형 색상"
+    ></rect>
+  ```
+
+### append, join
+* 요소를 추가하는 기능
+* 한번에 여러 개를 추가하고 싶은 경우, 앞에 ".data()"로 데이터를 지정하면 됨
+  * 예
+    ```javascript
+      const data = [1, 2, 3, 4, 5];
+
+      d3.select('body') // 위치 지정(body 태그)
+        .append('svg') // 선택한 태그 안에 svg 태그 생성
+        .selectAll('text')
+        .data(data)
+        .join('text')
+          .text(d => d);
+    ```
+### d3.attr('class', '클래스명')
+* class를 추가함
+* 기존의 class 값을 덮어 씌움
+* 기존 값에 추가를 원한다면 <code>d3.classed('클래스명', true)</code>를 사용할 것
+
+### Map & InternMap
+* Map: key-value 쌍의 집합인 Javascript 표준 내장 객체
+* InternMap
+  * Map처럼 key-value 쌍의 집합으로 이루어진 객체
+  * Map과 달리 Date 객체도 key로 사용할 수 있음
+* 사용 예
+  ```javascript
+    let internmap = d3.InternMap([['a', 1], ['b', 2]]);
+    internmap.set('c', 3); // 추가
+    internmap.get('a'); // key로 value 조회
+  ```
+
+### d3.rollup(Iterable, reduce, key1[, key2[, key3]])
+* Iterable: 연산에 사용할 배열
+* 예
+  ```javascript
+
+  ```
+
+
 ## 그래프(Chart)
 * 예시 파일: totalgraph(d3 v7 기준)
   * 사용법
