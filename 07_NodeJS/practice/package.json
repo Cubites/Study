@@ -1,0 +1,52 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "0_basic.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "n0": "nodemon node0_basic",
+    "n00": "nodemon node0_http",
+    "n1": "nodemon node1_mysql",
+    "n2": "nodemon node2_file_read",
+    "n3": "nodemon node3_file_open",
+    "n4": "nodemon node4_file_write",
+    "n5": "nodemon node5_express",
+    "n6": "nodemon node6_winston_test",
+    "n7": "nodemon node7_body_parser",
+    "n8": "nodemon node8_bcrypt",
+    "n9": "nodemon node9_router",
+    "n10": "nodemon node10_move",
+    "n11": "nodemon node11_upload",
+    "n12": "nodemon node12_dotenv",
+    "start": "cd cookie-parser && npm run start",
+    "n13": "concurrently --kill-others-on-fail \"nodemon node13_cookie-parser\" \"npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "http-proxy-middleware": "^2.0.6",
+    "moment": "^2.29.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "qs": "^6.11.0",
+    "query-string": "^7.1.1",
+    "winston": "^3.8.1",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.19"
+  }
+}
