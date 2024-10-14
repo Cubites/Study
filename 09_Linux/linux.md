@@ -219,6 +219,7 @@ scp -r root@126.24.58.186:/home/test/testfolder C:\Users\copyplace
 
 ## 파일 or 폴더 용량 확인
   | 옵션 | 기능 |
+  | --- | --- |
   | -a | 모들 파일 크기 출력 |
   | -h | 디렉토리/파일 크기를 KB/MB/GB 단위로 표시 |
   | -max-depth=N | 최대 N번째 하위 디렉토리까지 표시 |
@@ -250,4 +251,4 @@ sudo update-alternatives --config javac
 
 # Q&A
 * sudo 명령어로 웹 서버를 실행하는 이유
-<br>: 기본 보트 0 ~ 1024 를 이용하여 프로그램을 실행할 때 root 권한이 필요함
+<br>: 기본 포트 0 ~ 1024 를 이용하여 프로그램을 실행할 때 root 권한이 필요함
