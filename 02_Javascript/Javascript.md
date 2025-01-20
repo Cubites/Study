@@ -5,7 +5,7 @@
   </summary>
 
   ### Javascript란
-  * javscript는 객체 기반 언어이자 프로톹타입 기반 언어
+  * javscript는 객체 기반 언어이자 프로토타입 기반 언어
     * 객체 원형인 프로토타입을 이용하여 새로운 객체를 만듬
   * 정확히는 원시 타입을 제외한 나머지는 모두 객체
     * 원시타입 : string, number, Boolean, null, undefined
